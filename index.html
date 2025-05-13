@@ -1,1041 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>iOS Style Notes Site</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Researcher & Journal Publisher - Black & White Theme</title>
 <style>
-  /* Reset and base styles */
+  /* Base reset and typography */
   *, *::before, *::after {
     box-sizing: border-box;
   }
   html, body {
-    margin: 0; padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background: #f8f8f8; 
+    margin:0; padding:0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
     color: #000;
-    height: 100vh;
-    overflow: hidden;
-    user-select: none;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    user-select: none;
   }
-  body.dark {
-    background: #1c1c1e;
-    color: #fff;
-  }
-  /* Scrollbars */
-  #sidebar::-webkit-scrollbar,
-  #main-content::-webkit-scrollbar,
-  #settings-section::-webkit-scrollbar,
-  #create-note-modal::-webkit-scrollbar {
-    width: 8px;
-  }
-  #sidebar::-webkit-scrollbar-thumb,
-  #main-content::-webkit-scrollbar-thumb,
-  #settings-section::-webkit-scrollbar-thumb,
-  #create-note-modal::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
-    border-radius: 4px;
-  }
-  body.dark #sidebar::-webkit-scrollbar-thumb,
-  body.dark #main-content::-webkit-scrollbar-thumb,
-  body.dark #settings-section::-webkit-scrollbar-thumb,
-  body.dark #create-note-modal::-webkit-scrollbar-thumb {
-    background-color: rgba(255,255,255,0.2);
+  a, button, input, textarea {
+    font-family: inherit;
   }
   /* Header */
   header {
-    background: #fff; border-bottom: 1px solid #ccc;
-    height: 56px; display: flex; align-items: center; padding: 0 16px;
-    user-select: none; flex-shrink: 0;
+    height: 60px;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    user-select: none;
   }
-  body.dark header {
-    background: #2c2c2e;
-    border-color: #444;
-  }
+  /* Search input in header */
   #search-box {
-    flex-grow: 1; height: 36px;
-    border-radius: 16px; padding: 0 12px; font-size: 16px;
-    border: 1px solid #ccc; background: #f2f2f7; color: #000;
-    outline-offset: 2px; transition: border-color 0.3s ease;
+    margin-left: 1rem;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    height: 32px;
+    padding: 0 12px;
+    font-size: 1rem;
+    color: #000;
+    background: #fff;
+    flex: 1;
+    transition: border-color 0.3s ease;
   }
   #search-box::placeholder {
-    color: #888;
+    color: #666;
   }
   #search-box:focus {
-    border-color: #007aff;
-    background: #fff; color: #000;
+    outline: none;
+    border-color: #555;
   }
-  body.dark #search-box {
-    background: #444; border-color: #666; color: #ddd;
+  /* Settings button */
+  #settings-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: color 0.3s ease;
   }
-  body.dark #search-box::placeholder {
-    color: #bbb;
-  }
-  body.dark #search-box:focus {
-    border-color: #0a84ff;
-    background: #555; color: #eee;
-  }
-  button#settings-btn {
-    background: none; border: none;
-    cursor: pointer; color: #007aff;
-    font-size: 20px; padding: 4px;
-    border-radius: 50%;
-    user-select: none;
-  }
-  button#settings-btn:hover,
-  button#settings-btn:focus {
-    background: rgba(0,122,255,0.1);
+  #settings-btn:hover, #settings-btn:focus {
+    color: #aaa;
     outline: none;
   }
-  body.dark button#settings-btn {
-    color: #0a84ff;
-  }
-  /* Layout */
-  #app {
-    flex: 1; display: flex; background: #fff;
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.05);
-    overflow: hidden; position: relative;
+  /* Layout container */
+  #container {
+    flex: 1;
+    display: flex;
     min-height: 0;
-  }
-  body.dark #app {
-    background: #2c2c2e;
-    box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
   }
   /* Sidebar */
-  #sidebar {
-    width: 280px;
-    background: #fafafa;
-    border-right: 1px solid #d1d1d6;
+  nav.sidebar {
+    width: 270px;
+    background: #fff;
+    border-right: 1px solid #000;
+    padding: 24px 16px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    user-select: none;
-    min-height: 0;
   }
-  body.dark #sidebar {
-    background: #1c1c1e;
-    border-color: #3a3a3c;
-  }
-  .home-button {
-    font-weight: 600;
-    font-size: 18px;
-    padding: 18px 26px;
+  nav.sidebar h2.home-button {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0 0 1rem 0;
     cursor: pointer;
-    border-bottom: 1px solid #d1d1d6;
-    color: #007aff;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 6px;
     user-select: none;
     display: flex;
     align-items: center;
-    background-color: transparent;
-    transition: background-color 0.25s;
+    justify-content: space-between;
   }
-  .home-button.active,
-  .home-button:hover {
-    background-color: #e0e0f7;
+  nav.sidebar h2.home-button.active,
+  nav.sidebar h2.home-button:hover {
+    border-bottom-color: #000;
   }
-  body.dark .home-button {
-    color: #0a84ff;
-    border-color: #48484a;
-  }
-  body.dark .home-button.active,
-  body.dark .home-button:hover {
-    background-color: #3a3a3c;
-  }
-  .home-button::after {
-    content: "🏠";
-    margin-left: auto;
-    font-size: 1.3rem;
+  nav.sidebar ul.categories-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    overflow-y: auto;
     user-select: none;
   }
-  .category {
-    border-bottom: 1px solid #d1d1d6;
+  nav.sidebar ul.categories-list li {
+    margin-bottom: 8px;
   }
-  body.dark .category {
-    border-color: #48484a;
-  }
-  .category .category-title {
-    font-weight: 600;
-    font-size: 17px;
-    padding: 14px 24px;
+  nav.sidebar ul.categories-list li button {
+    all: unset;
     cursor: pointer;
+    font-size: 1rem;
+    color: #000;
+    padding: 6px 10px;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    color: #007aff;
-    border-left: 3px solid transparent;
+    width: 100%;
     user-select: none;
-    transition: background-color 0.25s ease, border-color 0.25s ease;
+    transition: background-color 0.3s ease;
   }
-  .category .category-title.active,
-  .category .category-title:hover {
-    background-color: #e0e0f7;
-    border-left-color: #007aff;
-  }
-  body.dark .category .category-title {
-    color: #0a84ff;
-  }
-  body.dark .category .category-title.active,
-  body.dark .category .category-title:hover {
-    background-color: #3a3a3c;
-    border-left-color: #0a84ff;
-  }
-  .category.collapsed > .category-title::after {
-    transform: rotate(-90deg);
-  }
-  .category .category-title::after {
-    content: "⌄";
-    font-size: 15px;
-    color: #007aff;
-    user-select: none;
-    transition: transform 0.25s ease;
-    line-height: 1;
-  }
-  body.dark .category .category-title::after {
-    color: #0a84ff;
-  }
-  .category.collapsed > .category-title::after {
-    transform: rotate(-90deg);
-  }
-  ul.notes-list {
-    list-style: none;
-    margin: 8px 0 20px 0;
-    padding-left: 32px;
-    max-height: 280px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  ul.notes-list li {
-    padding: 10px 0 10px 8px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-    color: #000;
-    transition: background-color 0.25s ease;
-  }
-  ul.notes-list li:hover,
-  ul.notes-list li.active {
-    background-color: #cce1ff;
-    color: #004085;
-  }
-  body.dark ul.notes-list li {
-    color: #ddd;
-  }
-  body.dark ul.notes-list li:hover,
-  body.dark ul.notes-list li.active {
-    background-color: #004fff;
-    color: #f3f6ff;
+  nav.sidebar ul.categories-list li button:hover,
+  nav.sidebar ul.categories-list li button.active {
+    background: #000;
+    color: #fff;
   }
   /* Main content */
-  #main-content {
-    flex-grow: 1;
-    padding: 32px 48px 160px 48px;
+  main.content {
+    flex: 1;
+    padding: 24px 48px;
     overflow-y: auto;
-    background: #fff;
-    color: #000;
-    position: relative;
-    user-select: text;
-    font-size: 18px;
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-    -webkit-font-smoothing: antialiased;
-    scroll-behavior: smooth;
     min-height: 0;
   }
-  body.dark #main-content {
-    background: #1c1c1e;
-    color: #ddd;
-  }
-  #main-content h1,
-  #main-content h2 {
+  main.content h1 {
     margin-top: 0;
-    margin-bottom: 20px;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell;
-    font-weight: 600;
-    font-size: 28px;
-    color: inherit;
-    text-rendering: optimizeLegibility;
+    font-weight: 700;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: 8px;
   }
-  #main-content p {
-    color: inherit;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.6;
-    white-space: pre-wrap;
+  main.content .article-list {
+    margin-top: 16px;
   }
-  /* Buttons in main */
-  button#download-btn,
-  button#read-now-btn,
-  #create-note-btn,
-  #exit-read-mode-btn {
-    user-select: none;
-  }
-  button#download-btn,
-  button#read-now-btn {
+  main.content .article-list button {
+    all: unset;
     display: block;
     width: 100%;
-    padding: 14px;
-    font-weight: 600;
-    font-size: 16px;
-    border-radius: 22px;
+    padding: 12px 10px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #ccc;
     cursor: pointer;
-    border: none;
-    margin-top: 18px;
-    transition: background-color 0.25s ease;
-  }
-  #download-btn { background-color: #007aff; color: white; }
-  #download-btn:hover, #download-btn:focus { background-color: #005ecb; outline: none; }
-  body.dark #download-btn { background-color: #0a84ff; color: #fff; }
-  body.dark #download-btn:hover, body.dark #download-btn:focus { background-color: #0972ff; }
-  #read-now-btn { background-color: #34c759; color: white; }
-  #read-now-btn:hover, #read-now-btn:focus { background-color: #28a745; outline: none; }
-  body.dark #read-now-btn { background-color: #30d158; color: #121212; }
-  body.dark #read-now-btn:hover, body.dark #read-now-btn:focus { background-color: #28a745; }
-  /* Download progress container */
-  #download-progress-container {
-    margin-top: 12px;
-    height: 14px;
-    width: 100%;
-    background: #e5e5ea;
-    border-radius: 7px;
-    overflow: hidden;
-    display: none;
-  }
-  body.dark #download-progress-container { background: #3a3a3c; }
-  #download-progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #007aff;
-    transition: width 0.3s ease;
-    border-radius: 7px 0 0 7px;
-  }
-  body.dark #download-progress-bar { background: #0a84ff; }
-  /* Settings section */
-  #settings-section {
-    position: absolute;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #fff;
-    padding: 32px 40px;
-    overflow-y: auto;
-    display: none;
-    flex-direction: column;
     user-select: none;
-    z-index: 10;
+    color: #000;
+    transition: background-color 0.3s ease;
   }
-  body.dark #settings-section { background: #1c1c1e; color: #ddd; }
-  #settings-section.active { display: flex; }
-  #settings-section h2 {
-    margin-top: 0; font-weight: 700; font-size: 28px; margin-bottom: 24px;
+  main.content .article-list button:hover,
+  main.content .article-list button.active {
+    background-color: #000;
+    color: #fff;
   }
-  #settings-section label {
-    display: flex; align-items: center; font-weight: 600;
-    font-size: 18px; cursor: pointer; margin-bottom: 24px; user-select: none;
+  main.content article.selected-article h2 {
+    margin-top: 0;
   }
-  #settings-section input[type=checkbox] {
-    margin-right: 12px; cursor: pointer; width: 22px; height: 22px;
+  main.content iframe#pdf-frame {
+    width: 100%;
+    height: 650px;
+    border: 1px solid #ccc;
+    margin-top: 24px;
   }
-  #settings-buttons {
-    display: flex; gap: 16px; margin-top: 12px;
+  /* Buttons container */
+  .buttons-row {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
   }
-  #settings-buttons button {
-    flex: 1; background: #007aff; border: none; color: white;
-    font-weight: 600; font-size: 18px; cursor: pointer; padding: 14px 0;
-    border-radius: 22px; transition: background-color 0.25s ease; user-select: none;
+  button.action-btn {
+    flex: 1;
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: 2px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    border-radius: 8px;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  #settings-buttons button:hover,
-  #settings-buttons button:focus { background: #005ecc; outline: none; }
-  body.dark #settings-buttons button { background: #0a84ff; color: white; }
-  body.dark #settings-buttons button:hover,
-  body.dark #settings-buttons button:focus { background: #0972ff; }
-  #settings-close-btn {
-    margin-top: 32px; background: #d1d1d6; color: #333;
-    width: 140px; border: none; border-radius: 22px;
-    padding: 12px 0; font-size: 18px; font-weight: 600;
-    cursor: pointer; user-select: none; transition: background-color 0.3s ease;
-    align-self: flex-start;
+  button.action-btn:hover,
+  button.action-btn:focus {
+    background-color: #000;
+    color: #fff;
+    outline: none;
   }
-  #settings-close-btn:hover, #settings-close-btn:focus { background: #a1a1a6; outline: none; }
-  body.dark #settings-close-btn { background: #48484a; color: #ddd; }
-  body.dark #settings-close-btn:hover, body.dark #settings-close-btn:focus { background: #5c5c60; }
-  /* Modal overlay and form for create note */
-  #create-note-modal {
+  /* Modal overlay */
+  #create-article-modal {
     display: none;
     position: fixed;
     inset: 0;
-    background-color: rgba(0,0,0,0.35);
-    z-index: 99;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
     justify-content: center;
     align-items: center;
-  }
-  #create-note-modal.active { display: flex; }
-  #create-note-form {
-    background: #fff;
-    border-radius: 20px;
-    padding: 30px 25px 30px 25px;
-    max-width: 400px;
-    width: 90vw;
-    max-height: 70vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
-    user-select: text;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-  body.dark #create-note-form {
-    background: #222;
-    color: #ddd;
-  }
-  #create-note-form h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-weight: 700;
-    font-size: 24px;
-  }
-  #create-note-form label {
-    font-weight: 600;
-    margin-top: 12px;
-    margin-bottom: 6px;
-    font-size: 16px;
-  }
-  #create-note-form input[type="text"],
-  #create-note-form textarea {
-    width: 100%;
-    padding: 9px 12px;
-    font-size: 16px;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    margin-bottom: 16px;
-    resize: vertical;
-    font-family: inherit;
-  }
-  body.dark #create-note-form input[type="text"],
-  body.dark #create-note-form textarea {
-    background: #333;
-    border-color: #555;
-    color: #ddd;
-  }
-  #create-note-form textarea {
-    min-height: 90px;
-  }
-  #create-note-form button {
-    background: #007aff;
-    border: none;
-    color: #fff;
-    font-weight: 700;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 14px 0;
-    border-radius: 22px;
     user-select: none;
-    transition: background-color 0.3s ease;
-    width: 100%;
   }
-  #create-note-form button:hover, #create-note-form button:focus {
-    background: #005ecc;
-    outline: none;
+  #create-article-modal.active {
+    display: flex;
   }
-  body.dark #create-note-form button {
-    background: #0a84ff;
-    color: #fff;
-  }
-  body.dark #create-note-form button:hover, body.dark #create-note-form button:focus {
-    background: #0972ff;
-  }
-  #create-note-cancel {
-    background: #d1d1d6;
-    color: #444;
-    margin-top: 12px;
-  }
-  #create-note-cancel:hover,
-  #create-note-cancel:focus {
-    background: #a1a1a6;
-    outline: none;
-  }
-  body.dark #create-note-cancel {
-    background: #48484a;
-    color: #ddd;
-  }
-  body.dark #create-note-cancel:hover,
-  body.dark #create-note-cancel:focus {
-    background: #5c5c60;
-  }
-  /* Read Mode */
-  body.reading-mode header,
-  body.reading-mode #sidebar,
-  body.reading-mode #settings-section,
-  body.reading-mode #create-note-modal,
-  body.reading-mode #create-note-btn {
-    display: none !important;
-  }
-  body.reading-mode #app {
-    height: 100vh;
-  }
-  body.reading-mode #main-content {
-    max-width: 700px;
-    font-size: 21px;
-    line-height: 1.8;
-    padding: 60px 30px;
+  #create-article-form {
     background: #fff;
     color: #000;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    max-width: 500px;
+    width: 90vw;
+    max-height: 75vh;
     overflow-y: auto;
-    box-shadow: 0 0 12px rgba(0,0,0,0.15);
-    border-radius: 16px;
-    user-select: text;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
   }
-  body.dark.reading-mode #main-content {
-    background: #1c1c1e;
-    color: #ddd;
-    box-shadow: 0 0 12px rgba(0,0,0,0.7);
+  #create-article-form label {
+    margin-top: 1rem;
+    font-weight: 600;
   }
-  #exit-read-mode-btn {
-    position: fixed;
-    top: 60px;
-    right: 30px;
-    background: #cc3300;
-    color: white;
-    border: none;
-    padding: 12px 20px;
+  #create-article-form input,
+  #create-article-form textarea {
+    margin-top: 0.25rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+  }
+  #create-article-form textarea {
+    min-height: 100px;
+  }
+  #create-article-form button {
+    margin-top: 1.5rem;
+    padding: 14px;
     font-weight: 700;
-    font-size: 16px;
-    border-radius: 25px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 16px;
     cursor: pointer;
-    z-index: 110;
-    box-shadow: 0 6px 14px rgba(204,51,0,0.7);
-    user-select: none;
-    display: none;
+    background: #000;
+    color: #fff;
+    transition: background-color 0.3s ease;
   }
-  #exit-read-mode-btn:hover,
-  #exit-read-mode-btn:focus {
-    background: #990000;
+  #create-article-form button:hover,
+  #create-article-form button:focus {
+    background-color: #444;
     outline: none;
   }
-  body.reading-mode #exit-read-mode-btn {
-    display: block;
+  #create-cancel {
+    margin-top: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-size: 1rem;
+    align-self: flex-end;
+    text-decoration: underline;
+    user-select: none;
+  }
+  #create-cancel:hover,
+  #create-cancel:focus {
+    color: #555;
+    outline: none;
   }
   /* Responsive */
-  @media (max-width: 900px) {
-    #sidebar { width: 220px; }
-    #main-content { padding: 24px 32px 160px 32px; }
-    #settings-section { padding: 24px 32px; }
-  }
-  @media (max-width: 480px) {
-    #app {
+  @media (max-width: 920px) {
+    #container {
       flex-direction: column;
-      height: calc(100vh - 56px);
+      height: auto;
     }
-    #sidebar {
-      position: fixed;
-      top: 56px;
-      left: 0;
-      height: calc(100vh - 56px);
-      width: 260px;
-      transform: translateX(-280px);
-      box-shadow: 2px 0 12px rgba(0,0,0,0.1);
-      border-right: 1px solid #d1d1d6;
-      transition: transform 0.3s ease;
-      z-index: 80;
-      background: #fafafa;
-      -webkit-overflow-scrolling: touch;
+    nav.sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #000;
+      padding: 1rem 12px;
+      display: flex;
+      overflow-x: auto;
     }
-    body.dark #sidebar {
-      background: #1c1c1e;
-      border-color: #48484a;
-      box-shadow: 2px 0 12px rgba(0,0,0,0.45);
+    nav.sidebar h2.home-button {
+      margin-bottom: 0;
+      border-bottom: none;
+      border-right: 2px solid #000;
+      padding-bottom: 0;
+      margin-right: 16px;
+      flex-shrink: 0;
     }
-    #sidebar.show {
-      transform: translateX(0);
+    nav.sidebar ul.categories-list {
+      display: flex;
+      padding-left: 0;
+      margin-bottom: 0;
+      overflow-x: auto;
+      gap: 1rem;
+      width: 100%;
+      white-space: nowrap;
     }
-    #main-content,
-    #settings-section,
-    #create-note-modal {
-      padding: 16px 20px 160px 20px;
-      height: 100%;
-      overflow-y: auto;
-      flex-grow: 1;
+    nav.sidebar ul.categories-list li button {
+      border-radius: 14px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      border: 1.5px solid transparent;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+    nav.sidebar ul.categories-list li button:hover,
+    nav.sidebar ul.categories-list li button.active {
+      border-color: #000;
+      background-color: #000;
+      color: #fff;
+    }
+    main.content {
+      padding: 1.5rem 1rem 8rem 1rem;
+    }
+    #create-article-form {
+      max-height: 80vh;
+      width: 95vw;
+      padding: 1.5rem 1.75rem;
     }
   }
 </style>
 </head>
 <body>
 <header>
-  <input type="search" id="search-box" placeholder="Search notes..." aria-label="Search notes" autocomplete="off" spellcheck="false" />
-  <button id="settings-btn" aria-label="Open settings" title="Settings" aria-haspopup="true" aria-expanded="false" tabindex="0">&#9881;</button>
+  Researcher &amp; Journal Publisher
+  <input type="search" id="search-box" placeholder="Search categories or articles" aria-label="Search" />
+  <button id="settings-btn" aria-label="Open settings">&#9881;</button>
 </header>
-<div id="app" role="main" aria-label="Notes site app container">
-
-  <nav id="sidebar" aria-label="Notes categories" tabindex="-1">
-    <h2 class="home-button active" tabindex="0" role="button" aria-pressed="true" aria-label="Home - all notes overview">Home</h2>
-    <section class="category" data-cat="bio">
-      <div class="title category-title active" tabindex="0" aria-expanded="true" aria-controls="notes-list-1">Biology</div>
-      <ul class="notes-list" id="notes-list-1">
-        <li tabindex="0" class="active" data-noteid="bio1">Introduction</li>
-        <li tabindex="0" data-noteid="bio2">Cell Structure</li>
-        <li tabindex="0" data-noteid="bio3">Genetics Basics</li>
-        <li tabindex="0" data-noteid="bio4">Evolution</li>
-        <li tabindex="0" data-noteid="bio5">Ecology</li>
-      </ul>
-    </section>
-    <section class="category collapsed" data-cat="phys">
-      <div class="title category-title" tabindex="0" aria-expanded="false" aria-controls="notes-list-2">Physics</div>
-      <ul class="notes-list" id="notes-list-2">
-        <li tabindex="0" data-noteid="phys1">Classical Mechanics</li>
-        <li tabindex="0" data-noteid="phys2">Thermodynamics</li>
-        <li tabindex="0" data-noteid="phys3">Quantum Physics</li>
-      </ul>
-    </section>
-    <section class="category collapsed" data-cat="math">
-      <div class="title category-title" tabindex="0" aria-expanded="false" aria-controls="notes-list-3">Mathematics</div>
-      <ul class="notes-list" id="notes-list-3">
-        <li tabindex="0" data-noteid="math1">Algebra</li>
-        <li tabindex="0" data-noteid="math2">Calculus</li>
-        <li tabindex="0" data-noteid="math3">Probability</li>
-      </ul>
-    </section>
+<div id="container">
+  <nav class="sidebar" aria-label="Categories">
+    <h2 class="home-button active" tabindex="0">Home</h2>
+    <ul class="categories-list" id="categories-list" role="list"></ul>
+    <button id="create-article-btn" aria-label="Create new article">Create Article</button>
   </nav>
-  <main id="main-content" tabindex="0" aria-live="polite" aria-atomic="true">
-    <h1>Welcome to Study Guide</h1>
-    <p>Use the Home button to view all notes or select a category and note from the sidebar. You can also search notes above. Click the settings icon to change preferences.</p>
-    <button id="download-btn" aria-label="Download all study guide notes">Download Notes</button>
-    <div id="download-progress-container"><div id="download-progress-bar"></div></div>
-    <button id="read-now-btn">Read Now</button>
+  <main class="content" id="main-content" tabindex="0" aria-live="polite">
+    <h1>Welcome to Researcher &amp; Journal Publisher</h1>
+    <p>Select a category or create a new article to begin.</p>
   </main>
-  <section id="settings-section" aria-label="Settings page" tabindex="0" role="region" aria-hidden="true">
-    <h2>Settings</h2>
-    <label><input type="checkbox" id="theme-toggle" aria-checked="false" /> Dark Theme</label>
-    <div id="settings-buttons">
-      <button id="login-btn" type="button">Log In</button>
-      <button id="logout-btn" type="button">Log Out</button>
-    </div>
-    <p style="margin-top: 32px; font-size: 1rem; color: grey;">Additional settings can be added here.</p>
-    <button id="settings-close-btn" aria-label="Close settings and return">Close Settings</button>
-  </section>
 </div>
-<button id="create-note-btn" title="Create a new note">+ Create Notes</button>
-<button id="exit-read-mode-btn" title="Exit reading mode" style="display:none;">Exit Read Mode</button>
-<div id="create-note-modal" aria-modal="true" role="dialog" aria-labelledby="create-note-form-title" tabindex="-1">
-  <form id="create-note-form" novalidate>
-    <h3 id="create-note-form-title">Create a New Note</h3>
-    <label for="new-note-category">Category</label>
-    <input type="text" id="new-note-category" placeholder="Category Name" autocomplete="off" required />
-    <label for="new-note-title">Title</label>
-    <input type="text" id="new-note-title" placeholder="Note Title" autocomplete="off" required />
-    <label for="new-note-content">Details</label>
-    <textarea id="new-note-content" placeholder="Write notes here..." rows="5" required></textarea>
-    <button type="submit" id="submit-note-btn">Submit</button>
-    <button type="button" id="create-note-cancel">Cancel</button>
+
+<div id="create-article-modal" role="dialog" aria-modal="true" aria-labelledby="create-article-title" tabindex="-1">
+  <form id="create-article-form">
+    <h3 id="create-article-title">Create New Article</h3>
+    <label for="article-category">Category</label>
+    <input type="text" id="article-category" required />
+    <label for="article-title">Title</label>
+    <input type="text" id="article-title" required />
+    <label for="article-content">Content</label>
+    <textarea id="article-content" required></textarea>
+    <button type="submit">Publish Article</button>
+    <button type="button" id="create-cancel">Cancel</button>
   </form>
 </div>
+
+<div id="settings-section" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1" style="display:none; position:fixed; inset:0; background:#fff; padding:2rem;">
+  <h2 id="settings-title">Settings</h2>
+  <label><input type="checkbox" id="bw-toggle" /> Black &amp; White Theme</label>
+  <div style="margin-top:1rem;">
+    <button id="settings-close">Close</button>
+  </div>
+</div>
+
 <script>
-(() => {
-  const notesData = {
-    bio1: { title: "Introduction", content: "Biology is the scientific study of life and living organisms, including their structure, function, growth, evolution, distribution, and taxonomy."},
-    bio2: { title: "Cell Structure", content: "Cells are the basic building blocks of all living organisms. Key components include the nucleus, cytoplasm, cell membrane, mitochondria, and ribosomes."},
-    bio3: { title: "Genetics Basics", content: "Genetics is the study of genes, genetic variation, and heredity in living organisms. DNA carries the genetic instructions used in development and functioning."},
-    bio4: { title: "Evolution", content: "Evolution explains the changes in species over time through processes like natural selection and genetic drift."},
-    bio5: { title: "Ecology", content: "Ecology studies how organisms interact with each other and their environment, including ecosystems, biodiversity, and conservation."},
-    phys1: { title: "Classical Mechanics", content: "Classical mechanics studies motion of bodies under influence of forces, including Newton's laws."},
-    phys2: { title: "Thermodynamics", content: "Thermodynamics studies heat, work, temperature and energy."},
-    phys3: { title: "Quantum Physics", content: "Quantum physics studies behavior of particles on atomic and subatomic levels."},
-    math1: { title: "Algebra", content: "Algebra involves using symbols and letters to represent numbers."},
-    math2: { title: "Calculus", content: "Calculus focuses on limits, derivatives, integrals, and infinite series."},
-    math3: { title: "Probability", content: "Probability is the study of chance, randomness, and uncertainty."}
-  };
+  (() => {
+    const categoriesList = document.getElementById('categories-list');
+    const mainContent = document.getElementById('main-content');
+    const createArticleBtn = document.getElementById('create-article-btn');
+    const createArticleModal = document.getElementById('create-article-modal');
+    const createArticleForm = document.getElementById('create-article-form');
+    const createCancelBtn = document.getElementById('create-cancel');
+    const articleCategoryInput = document.getElementById('article-category');
+    const articleTitleInput = document.getElementById('article-title');
+    const articleContentInput = document.getElementById('article-content');
+    const searchBox = document.getElementById('search-box');
+    const homeButton = document.querySelector('.home-button');
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsSection = document.getElementById('settings-section');
+    const settingsCloseBtn = document.getElementById('settings-close');
+    const bwToggle = document.getElementById('bw-toggle');
 
-  const sidebar = document.getElementById('sidebar');
-  const homeBtn = sidebar.querySelector('.home-button');
-  const mainContent = document.getElementById('main-content');
-  const searchBox = document.getElementById('search-box');
-  const settingsBtn = document.getElementById('settings-btn');
-  const settingsSection = document.getElementById('settings-section');
-  const settingsCloseBtn = document.getElementById('settings-close-btn');
-  const themeToggle = document.getElementById('theme-toggle');
-  const loginBtn = document.getElementById('login-btn');
-  const logoutBtn = document.getElementById('logout-btn');
-  const createNoteBtn = document.getElementById('create-note-btn');
-  const exitReadModeBtn = document.getElementById('exit-read-mode-btn');
-  const downloadBtnContainer = mainContent;
-  const downloadBtn = document.getElementById('download-btn');
-  const downloadProgressContainer = document.getElementById('download-progress-container');
-  const downloadProgressBar = document.getElementById('download-progress-bar');
-  const readNowBtn = document.getElementById('read-now-btn');
-  const createNoteModal = document.getElementById('create-note-modal');
-  const createNoteForm = document.getElementById('create-note-form');
-  const newNoteCategoryInput = document.getElementById('new-note-category');
-  const newNoteTitleInput = document.getElementById('new-note-title');
-  const newNoteContentInput = document.getElementById('new-note-content');
-  const submitNoteBtn = document.getElementById('submit-note-btn');
-  const cancelNoteBtn = document.getElementById('create-note-cancel');
+    let data = {};
+    let activeCategory = null;
 
-  let mode = 'home';
-  let activeNoteId = null;
-
-  function clearActiveStates() {
-    sidebar.querySelectorAll('li.active').forEach(el => el.classList.remove('active'));
-    sidebar.querySelectorAll('.category-title.active').forEach(el => el.classList.remove('active'));
-    homeBtn.classList.remove('active');
-  }
-
-  function generateNoteId() {
-    return 'note_' + Math.random().toString(36).substr(2, 9);
-  }
-
-  function createNewCategory(catKey, categoryName) {
-    const catDiv = document.createElement('section');
-    catDiv.classList.add('category', 'collapsed');
-    catDiv.setAttribute('data-cat', catKey);
-    const catTitle = document.createElement('div');
-    catTitle.classList.add('title', 'category-title');
-    catTitle.tabIndex = 0;
-    catTitle.setAttribute('aria-expanded', 'false');
-    catTitle.textContent = categoryName;
-    const ul = document.createElement('ul');
-    ul.classList.add('notes-list');
-    ul.id = `notes-list-${catKey}`;
-    catTitle.setAttribute('aria-controls', ul.id);
-    catTitle.setAttribute('id', `${ul.id}-label`);
-    ul.setAttribute('aria-labelledby', `${ul.id}-label`);
-    catDiv.appendChild(catTitle);
-    catDiv.appendChild(ul);
-    sidebar.appendChild(catDiv);
-    catTitle.addEventListener('click', () => {
-      const isCollapsed = catDiv.classList.toggle('collapsed');
-      catTitle.setAttribute('aria-expanded', !isCollapsed);
-    });
-    catTitle.addEventListener('keydown', e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        catTitle.click();
-      }
-    });
-  }
-
-  function addNoteToSidebar(catKey, title, noteId) {
-    let catSection = sidebar.querySelector(`.category[data-cat="${catKey}"]`);
-    if (!catSection) {
-      createNewCategory(catKey, catKey.charAt(0).toUpperCase() + catKey.slice(1));
-      catSection = sidebar.querySelector(`.category[data-cat="${catKey}"]`);
+    function generateId(){
+      return 'id-'+Math.random().toString(36).substr(2,9);
     }
-    let notesList = catSection.querySelector('ul.notes-list');
-    if (!notesList) {
-      notesList = document.createElement('ul');
-      notesList.classList.add('notes-list');
-      catSection.appendChild(notesList);
-    }
-    catSection.classList.remove('collapsed');
-    catSection.querySelector('.category-title').setAttribute('aria-expanded', 'true');
-    const newLi = document.createElement('li');
-    newLi.tabIndex = 0;
-    newLi.dataset.noteid = noteId;
-    newLi.textContent = title;
-    notesList.appendChild(newLi);
-    newLi.addEventListener('click', () => {
-      mode = 'note-view';
-      activeNoteId = noteId;
-      clearActiveStates();
-      highlightNote(noteId);
-      showNoteDetails(noteId);
-    });
-    newLi.addEventListener('keydown', e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        newLi.click();
-      }
-    });
-  }
 
-  function showNoteDetails(id) {
-    if (!notesData[id]) return;
-    mainContent.innerHTML = `
-      <h1>${notesData[id].title}</h1>
-      <p>${notesData[id].content}</p>
-      <button id="download-btn">Download Notes</button>
-      <div id="download-progress-container" style="display: none;"><div id="download-progress-bar" style="width: 0%; height: 8px; background: #007aff; border-radius: 5px;"></div></div>
-      <button id="read-now-btn">Read Now</button>
-    `;
-    mainContent.querySelector('#download-btn').addEventListener('click', downloadNotesWithProgress);
-    mainContent.querySelector('#read-now-btn').addEventListener('click', enterReadMode);
-    mainContent.focus();
-    activeNoteId = id;
-  }
-
-  function showHome() {
-    let html = '<h1>All Notes</h1><ul style="list-style:none; padding-left:0;">';
-    for (const [id, note] of Object.entries(notesData)) {
-      html += `<li tabindex="0" style="cursor:pointer; padding: 6px 0; border-bottom:1px solid #ddd;" data-noteid="${id}">${note.title}</li>`;
-    }
-    html += '</ul><button id="download-btn">Download Notes</button><div id="download-progress-container" style="display:none;"><div id="download-progress-bar" style="width:0%; height:8px; background:#007aff; border-radius:5px;"></div></div><button id="read-now-btn">Read Now</button>';
-    mainContent.innerHTML = html;
-
-    mainContent.querySelectorAll('ul li').forEach(li => {
-      li.addEventListener('click', () => {
-        mode = 'note-view';
-        activeNoteId = li.dataset.noteid;
-        clearActiveStates();
-        highlightNote(activeNoteId);
-        showNoteDetails(activeNoteId);
+    function renderCategories(){
+      categoriesList.innerHTML = '';
+      Object.keys(data).sort().forEach(category => {
+        let catLi = document.createElement('li');
+        let catBtn = document.createElement('button');
+        catBtn.innerText = `${category} (${data[category].length})`;
+        catBtn.type = 'button';
+        catBtn.tabIndex = 0;
+        if(category === activeCategory) catBtn.classList.add('active');
+        catBtn.addEventListener('click', () => {
+          activeCategory = category;
+          renderCategories();
+          renderArticles(category);
+        });
+        catLi.appendChild(catBtn);
+        categoriesList.appendChild(catLi);
       });
-      li.addEventListener('keydown', e => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          li.click();
-        }
-      });
-    });
+      if(!activeCategory) {
+        mainContent.innerHTML = '<h1>Welcome</h1><p>Select a category or create a new article to start publishing.</p>';
+      }
+    }
 
-    mainContent.querySelector('#download-btn').addEventListener('click', downloadNotesWithProgress);
-    mainContent.querySelector('#read-now-btn').addEventListener('click', enterReadMode);
-    mainContent.focus();
-  }
-
-  function downloadNotesWithProgress() {
-    const progContainer = mainContent.querySelector('#download-progress-container');
-    const progBar = mainContent.querySelector('#download-progress-bar');
-    const downloadBtn = mainContent.querySelector('#download-btn');
-    const readNowBtn = mainContent.querySelector('#read-now-btn');
-    if (progContainer.style.display === 'block') return;
-    progContainer.style.display = 'block';
-    progBar.style.width = '0%';
-    downloadBtn.disabled = true;
-    readNowBtn.disabled = true;
-    let progress = 0;
-    const interval = setInterval(() => {
-      if (progress >= 100) {
-        clearInterval(interval);
-        progBar.style.width = '100%';
-        setTimeout(() => {
-          progContainer.style.display = 'none';
-          downloadBtn.disabled = false;
-          readNowBtn.disabled = false;
-          forceDownload();
-        }, 400);
+    function renderArticles(category){
+      const articles = data[category] || [];
+      if(articles.length === 0){
+        mainContent.innerHTML = `<h1>${category}</h1><p>No articles published in this category yet.</p>`;
         return;
       }
-      progress += 10 + Math.random() * 15;
-      progBar.style.width = Math.min(progress, 100) + '%';
-    }, 150);
-  }
-
-  function forceDownload() {
-    let text = 'Notes:\n\n';
-    for (let note of Object.values(notesData)) {
-      text += note.title.toUpperCase() + '\n' + note.content + '\n\n';
-    }
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'notes.txt';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 0);
-  }
-
-  function filterSidebarNotes(term) {
-    term = term.trim().toLowerCase();
-    if (!term) {
-      sidebar.querySelectorAll('li').forEach(li => li.style.display = 'block');
-      sidebar.querySelectorAll('.category').forEach(cat => cat.style.display = 'block');
-      homeBtn.style.display = 'block';
-      return;
-    }
-    homeBtn.style.display = 'none';
-    sidebar.querySelectorAll('.category').forEach(cat => {
-      let anyVisible = false;
-      cat.querySelectorAll('li').forEach(li => {
-        const visible = li.textContent.toLowerCase().includes(term);
-        li.style.display = visible ? 'block' : 'none';
-        if (visible) anyVisible = true;
+      let html = `<h1>${category}</h1><ul style="list-style:none; padding-left:0;">`;
+      articles.forEach(({id, title}, i) => {
+        html += `<li><button type="button" data-id="${id}" style="width:100%; text-align:left; padding:10px;">${title}</button></li>`;
       });
-      cat.style.display = anyVisible ? 'block' : 'none';
-      const catTitle = cat.querySelector('.category-title');
-      if (catTitle) {
-        cat.classList.toggle('collapsed', !anyVisible);
-        catTitle.setAttribute('aria-expanded', anyVisible.toString());
-      }
-    });
-  }
-
-  sidebar.querySelectorAll('.category .category-title').forEach(title => {
-    title.addEventListener('click', () => {
-      const cat = title.parentElement;
-      const isCollapsed = cat.classList.toggle('collapsed');
-      title.setAttribute('aria-expanded', (!isCollapsed).toString());
-    });
-    title.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        title.click();
-      }
-    });
-  });
-
-  sidebar.querySelectorAll('ul.notes-list li').forEach(li => {
-    li.addEventListener('click', () => {
-      const id = li.dataset.noteid;
-      mode = 'note-view';
-      activeNoteId = id;
-      clearActiveStates();
-      highlightNote(activeNoteId);
-      showNoteDetails(activeNoteId);
-    });
-    li.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        li.click();
-      }
-    });
-  });
-
-  homeBtn.addEventListener('click', () => {
-    if (mode !== 'home') {
-      mode = 'home';
-      clearActiveStates();
-      homeBtn.classList.add('active');
-      showHome();
-      searchBox.value = '';
-      filterSidebarNotes('');
+      html += '</ul>';
+      mainContent.innerHTML = html;
+      // Attach listeners for articles
+      mainContent.querySelectorAll('button[data-id]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const article = articles.find(a=>a.id === btn.dataset.id);
+          if(article){
+            mainContent.innerHTML = `<h1>${article.title}</h1><p>${article.content.replace(/\n/g,'<br>')}</p><button id="back-btn">Back to list</button>`;
+            document.getElementById('back-btn').addEventListener('click', () => {
+              renderArticles(category);
+            });
+          }
+        });
+      });
     }
-  });
-  homeBtn.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
+
+    createArticleBtn.addEventListener('click', () => {
+      createArticleModal.style.display = 'flex';
+      articleCategoryInput.focus();
+    });
+    createCancelBtn.addEventListener('click', () => {
+      createArticleModal.style.display = 'none';
+      createArticleForm.reset();
+    });
+    createArticleModal.addEventListener('click', e => {
+      if(e.target === createArticleModal){
+        createArticleModal.style.display = 'none';
+        createArticleForm.reset();
+      }
+    });
+    createArticleForm.addEventListener('submit', e => {
       e.preventDefault();
-      homeBtn.click();
-    }
-  });
-
-  searchBox.addEventListener('input', e => {
-    filterSidebarNotes(e.target.value);
-  });
-
-  settingsBtn.addEventListener('click', () => {
-    settingsSection.classList.add('active');
-    sidebar.style.display = 'none';
-    mainContent.style.display = 'none';
-    settingsBtn.setAttribute('aria-expanded', 'true');
-    searchBox.disabled = true;
-    mode = 'settings';
-    settingsSection.focus();
-  });
-
-  settingsCloseBtn.addEventListener('click', () => {
-    settingsSection.classList.remove('active');
-    sidebar.style.display = '';
-    mainContent.style.display = '';
-    settingsBtn.setAttribute('aria-expanded', 'false');
-    searchBox.disabled = false;
-    searchBox.focus();
-    if (mode === 'settings') {
-      if (activeNoteId) {
-        mode = 'note-view';
-        clearActiveStates();
-        highlightNote(activeNoteId);
-        showNoteDetails(activeNoteId);
-      } else {
-        mode = 'home';
-        clearActiveStates();
-        homeBtn.classList.add('active');
-        showHome();
+      const category = articleCategoryInput.value.trim();
+      const title = articleTitleInput.value.trim();
+      const content = articleContentInput.value.trim();
+      if(!category || !title || !content){
+        alert('Please fill all fields.');
+        return;
       }
-    }
-  });
-
-  themeToggle.addEventListener('change', e => {
-    if (e.target.checked) {
-      document.body.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  });
-
-  document.getElementById('login-btn').addEventListener('click', () => alert('Login not implemented.'));
-  document.getElementById('logout-btn').addEventListener('click', () => alert('Logout not implemented.'));
-
-  // Create note modal handlers
-  createNoteBtn.addEventListener('click', () => {
-    createNoteModal.classList.add('active');
-    newNoteCategoryInput.focus();
-  });
-  cancelNoteBtn.addEventListener('click', () => {
-    createNoteModal.classList.remove('active');
-    createNoteForm.reset();
-  });
-  createNoteModal.addEventListener('click', e => {
-    if (e.target === createNoteModal) {
-      createNoteModal.classList.remove('active');
-      createNoteForm.reset();
-    }
-  });
-  createNoteForm.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const catRaw = newNoteCategoryInput.value.trim();
-    const title = newNoteTitleInput.value.trim();
-    const contentText = newNoteContentInput.value.trim();
-
-    if (!catRaw || !title || !contentText) {
-      alert("Please fill all fields.");
-      return;
-    }
-    const catKey = catRaw.toLowerCase().replace(/\W+/g, '');
-    const noteId = generateNoteId();
-
-    notesData[noteId] = { title, content: contentText };
-    addNoteToSidebar(catKey, title, noteId);
-    createNoteModal.classList.remove('active');
-    createNoteForm.reset();
-
-    mode = 'note-view';
-    activeNoteId = noteId;
-    clearActiveStates();
-    highlightNote(noteId);
-    showNoteDetails(noteId);
-    searchBox.value = '';
-    filterSidebarNotes('');
-    alert(`Note "${title}" added to category "${catRaw}".`);
-  });
-
-  // Read mode
-  readNowBtn.addEventListener('click', () => {
-    document.body.classList.add('reading-mode');
-    searchBox.style.display = 'none';
-    settingsBtn.style.display = 'none';
-    createNoteBtn.style.display = 'none';
-    exitReadModeBtn.style.display = 'inline-block';
-  });
-  exitReadModeBtn.addEventListener('click', () => {
-    document.body.classList.remove('reading-mode');
-    searchBox.style.display = '';
-    settingsBtn.style.display = '';
-    createNoteBtn.style.display = '';
-    exitReadModeBtn.style.display = 'none';
-  });
-
-  // On load: load theme and start home
-  window.addEventListener('load', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.body.classList.add('dark');
-      themeToggle.checked = true;
-    }
-    mode = 'home';
-    clearActiveStates();
-    homeBtn.classList.add('active');
-    showHome();
-  });
-})();
+      if(!data[category]){
+        data[category] = [];
+      }
+      const newId = generateId();
+      data[category].push({id: newId, title, content});
+      activeCategory = category;
+      renderCategories();
+      renderArticles(category);
+      createArticleModal.style.display = 'none';
+      createArticleForm.reset();
+    });
+    searchBox.addEventListener('input', () => {
+      const term = searchBox.value.trim().toLowerCase();
+      const filteredCategories = Object.keys(data).filter(cat => 
+        cat.toLowerCase().includes(term) || 
+        data[cat].some(article => article.title.toLowerCase().includes(term))
+      );
+      categoriesList.innerHTML = '';
+      filteredCategories.forEach(cat => {
+        let catLi = document.createElement('li');
+        let catBtn = document.createElement('button');
+        catBtn.innerText = `${cat} (${data[cat].length})`;
+        catBtn.type = 'button';
+        catBtn.tabIndex = 0;
+        catBtn.addEventListener('click', () => {
+          activeCategory = cat;
+          renderCategories();
+          renderArticles(cat);
+        });
+        catLi.appendChild(catBtn);
+        categoriesList.appendChild(catLi);
+      });
+      if (term === '') {
+        renderCategories();
+        if(activeCategory) renderArticles(activeCategory);
+      }
+      if (filteredCategories.length === 0) {
+        mainContent.innerHTML = '<h1>No results found</h1>';
+      }
+    });
+    settingsBtn.addEventListener('click', () => {
+      settingsSection.style.display = 'block';
+      container.style.display = 'none';
+      header.style.display = 'none';
+      searchBox.disabled = true;
+    });
+    settingsCloseBtn.addEventListener('click', () => {
+      settingsSection.style.display = 'none';
+      container.style.display = 'flex';
+      header.style.display = 'flex';
+      searchBox.disabled = false;
+    });
+    bwToggle.addEventListener('change', () => {
+      if(bwToggle.checked){
+        document.body.style.background = '#000';
+        document.body.style.color = '#fff';
+      } else {
+        document.body.style.background = '#fff';
+        document.body.style.color = '#000';
+      }
+    });
+    // Initialize empty state
+    renderCategories();
+  })();
 </script>
 </body>
 </html>
