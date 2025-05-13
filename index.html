@@ -1,255 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Researcher & Journal Publisher - Black & White Theme</title>
+<title>Research Community & Journal Publisher</title>
 <style>
-  /* Base reset and typography */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+  /*=== Base CSS ===*/
+  *, *::before, *::after { box-sizing: border-box; }
   html, body {
     margin:0; padding:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: #fff;
     color: #000;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    user-select: none;
+    height: 100vh;
+    display: flex; flex-direction: column;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   }
-  a, button, input, textarea {
-    font-family: inherit;
+  body.reading-mode {
+    background: #fff;
   }
-  /* Header */
+  /*=== Header ===*/
   header {
-    height: 60px;
-    background: #000;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    font-size: 1.3rem;
-    font-weight: 700;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px; background: #000; color: #fff;
+    padding: 0 16px; font-weight: 600; font-size: 1.1rem;
     user-select: none;
   }
-  /* Search input in header */
-  #search-box {
-    margin-left: 1rem;
-    border: 2px solid #fff;
-    border-radius: 8px;
+  #search-bar {
+    flex-grow: 1;
     height: 32px;
-    padding: 0 12px;
-    font-size: 1rem;
-    color: #000;
-    background: #fff;
-    flex: 1;
-    transition: border-color 0.3s ease;
-  }
-  #search-box::placeholder {
-    color: #666;
-  }
-  #search-box:focus {
-    outline: none;
-    border-color: #555;
-  }
-  /* Settings button */
-  #settings-btn {
-    background: transparent;
+    margin: 0 16px;
+    padding: 4px 12px;
+    border-radius: 16px;
     border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    margin-left: 1rem;
-    transition: color 0.3s ease;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #111;
+    background: #eee;
+    outline-offset: 2px;
+    transition: background-color 0.2s ease;
   }
-  #settings-btn:hover, #settings-btn:focus {
-    color: #aaa;
+  #search-bar::placeholder {
+    color: #888;
+  }
+  #search-bar:focus {
+    background: #fff;
     outline: none;
   }
-  /* Layout container */
-  #container {
+  button#settings-btn {
+    background: transparent; border: none; color: #fff;
+    font-size: 1.25rem; cursor: pointer; user-select: none;
+    transition: color 0.2s ease;
+  }
+  button#settings-btn:hover, button#settings-btn:focus { color: #777; outline:none;}
+  /*=== Layout ===*/
+  #app {
     flex: 1;
-    display: flex;
-    min-height: 0;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 1fr;
+    overflow: hidden;
   }
   /* Sidebar */
-  nav.sidebar {
-    width: 270px;
-    background: #fff;
-    border-right: 1px solid #000;
-    padding: 24px 16px;
+  nav#sidebar {
+    background: #f7f7f7;
+    border-right: 1px solid #ddd;
+    display: flex; flex-direction: column;
+    padding: 1rem;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
   }
-  nav.sidebar h2.home-button {
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin: 0 0 1rem 0;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    padding-bottom: 6px;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  nav#sidebar h2 {
+    margin-top: 0; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem;
   }
-  nav.sidebar h2.home-button.active,
-  nav.sidebar h2.home-button:hover {
-    border-bottom-color: #000;
-  }
-  nav.sidebar ul.categories-list {
+  ul#categories {
     list-style: none;
-    margin: 0;
-    padding: 0;
-    flex-grow: 1;
-    overflow-y: auto;
-    user-select: none;
+    padding-left: 0; margin: 0; flex-grow: 1; overflow-y: auto;
   }
-  nav.sidebar ul.categories-list li {
-    margin-bottom: 8px;
+  ul#categories li {
+    margin-bottom: 0.6rem;
   }
-  nav.sidebar ul.categories-list li button {
+  ul#categories button {
     all: unset;
+    width: 100%; text-align: left;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 1rem;
-    color: #000;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    user-select: none;
     transition: background-color 0.3s ease;
   }
-  nav.sidebar ul.categories-list li button:hover,
-  nav.sidebar ul.categories-list li button.active {
-    background: #000;
+  ul#categories button.active, ul#categories button:hover {
+    background-color: #000;
     color: #fff;
   }
   /* Main content */
-  main.content {
-    flex: 1;
-    padding: 24px 48px;
+  main#main-content {
+    background: #fff;
+    padding: 2rem 3rem;
     overflow-y: auto;
     min-height: 0;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    user-select: text;
   }
-  main.content h1 {
+  main#main-content h1,
+  main#main-content h2 {
     margin-top: 0;
+    margin-bottom: 1rem;
     font-weight: 700;
-    font-size: 1.8rem;
-    border-bottom: 2px solid #000;
-    padding-bottom: 8px;
   }
-  main.content .article-list {
-    margin-top: 16px;
+  main#main-content h1 { font-size: 2.4rem; }
+  main#main-content h2 { font-size: 1.8rem; margin-top: 3rem; }
+  main#main-content p {
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
   }
-  main.content .article-list button {
-    all: unset;
-    display: block;
-    width: 100%;
-    padding: 12px 10px;
-    font-size: 1.1rem;
-    border-bottom: 1px solid #ccc;
+  main#main-content button {
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #000;
+    border: none;
+    border-radius: 24px;
+    color: #fff;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
     user-select: none;
-    color: #000;
     transition: background-color 0.3s ease;
   }
-  main.content .article-list button:hover,
-  main.content .article-list button.active {
-    background-color: #000;
-    color: #fff;
-  }
-  main.content article.selected-article h2 {
-    margin-top: 0;
-  }
-  main.content iframe#pdf-frame {
-    width: 100%;
-    height: 650px;
-    border: 1px solid #ccc;
-    margin-top: 24px;
-  }
-  /* Buttons container */
-  .buttons-row {
-    margin-top: 24px;
-    display: flex;
-    gap: 12px;
-  }
-  button.action-btn {
-    flex: 1;
-    padding: 14px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border: 2px solid #000;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-    border-radius: 8px;
-    user-select: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  button.action-btn:hover,
-  button.action-btn:focus {
-    background-color: #000;
-    color: #fff;
+  main#main-content button:hover, main#main-content button:focus {
+    background-color: #444;
     outline: none;
   }
-  /* Modal overlay */
+  /* Create Article Modal */
   #create-article-modal {
-    display: none;
     position: fixed;
     inset: 0;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
-    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    display: none;
     align-items: center;
-    user-select: none;
+    justify-content: center;
+    z-index: 1000;
   }
   #create-article-modal.active {
     display: flex;
   }
   #create-article-form {
     background: #fff;
-    color: #000;
-    border-radius: 12px;
     padding: 2rem 2.5rem;
-    max-width: 500px;
-    width: 90vw;
-    max-height: 75vh;
+    width: 400px;
+    max-width: 90vw;
+    max-height: 80vh;
     overflow-y: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    font-family: 'Georgia', serif;
+  }
+  #create-article-form h3 {
+    margin: 0 0 1.4rem 0;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.03em;
+    user-select: none;
   }
   #create-article-form label {
-    margin-top: 1rem;
     font-weight: 600;
+    margin: 0.8rem 0 0.4rem 0;
   }
   #create-article-form input,
   #create-article-form textarea {
-    margin-top: 0.25rem;
-    padding: 0.75rem 1rem;
+    font-family: 'Georgia', serif;
     font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
     border: 1px solid #ccc;
-    border-radius: 6px;
     resize: vertical;
   }
   #create-article-form textarea {
-    min-height: 100px;
+    min-height: 150px;
   }
   #create-article-form button {
-    margin-top: 1.5rem;
-    padding: 14px;
+    margin-top: 2rem;
+    padding: 1rem 0;
     font-weight: 700;
     font-size: 1.2rem;
+    border-radius: 24px;
+    background-color: #000;
     border: none;
-    border-radius: 16px;
-    cursor: pointer;
-    background: #000;
     color: #fff;
+    cursor: pointer;
+    user-select: none;
     transition: background-color 0.3s ease;
   }
   #create-article-form button:hover,
@@ -257,275 +198,331 @@
     background-color: #444;
     outline: none;
   }
-  #create-cancel {
-    margin-top: 0.5rem;
-    background: transparent;
+  #cancel-btn {
+    margin-top: 1rem;
+    background: none;
+    color: #666;
+    font-style: italic;
     border: none;
-    color: #000;
     cursor: pointer;
-    font-size: 1rem;
     align-self: flex-end;
-    text-decoration: underline;
-    user-select: none;
+    font-size: 1rem;
   }
-  #create-cancel:hover,
-  #create-cancel:focus {
-    color: #555;
+  #cancel-btn:hover,
+  #cancel-btn:focus {
+    color: #444;
     outline: none;
   }
+  /* Progress bar container */
+  #progress-container {
+    margin-top: 1.5rem;
+    height: 12px;
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+  }
+  #progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #000;
+    transition: width 0.3s ease;
+  }
+  /* Reading Mode */
+  body.reading-mode header,
+  body.reading-mode nav.sidebar,
+  body.reading-mode #create-article-modal,
+  body.reading-mode #create-article-btn,
+  body.reading-mode #settings-btn {
+    display: none !important;
+  }
+  body.reading-mode main.content {
+    max-width: 700px;
+    margin: 3rem auto;
+    font-size: 1.25rem;
+    line-height: 1.8;
+    background: #fff;
+    color: #000;
+    border-radius: 16px;
+    box-shadow: 0 0 30px #0002;
+    padding: 3rem;
+    user-select: text;
+    outline: none;
+  }
+  #exit-read-btn {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 2000;
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.8);
+    user-select: none;
+    display: none;
+  }
+  #exit-read-btn:hover,
+  #exit-read-btn:focus {
+    background: #c0392b;
+    outline: none;
+  }
+  body.reading-mode #exit-read-btn {
+    display: block;
+  }
   /* Responsive */
-  @media (max-width: 920px) {
+  @media (max-width: 900px) {
     #container {
       flex-direction: column;
       height: auto;
+      max-width: 700px;
+      margin: 0 auto;
     }
     nav.sidebar {
       width: 100%;
+      height: 70px;
+      padding: 0.5rem 1rem;
+      overflow-x: auto;
       border-right: none;
-      border-bottom: 1px solid #000;
-      padding: 1rem 12px;
-      display: flex;
-      overflow-x: auto;
+      border-bottom: 1px solid #ccc;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
     }
-    nav.sidebar h2.home-button {
-      margin-bottom: 0;
-      border-bottom: none;
-      border-right: 2px solid #000;
-      padding-bottom: 0;
-      margin-right: 16px;
-      flex-shrink: 0;
+    nav.sidebar h2 {
+      display: none;
     }
-    nav.sidebar ul.categories-list {
+    ul#categories {
       display: flex;
-      padding-left: 0;
-      margin-bottom: 0;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
       overflow-x: auto;
-      gap: 1rem;
-      width: 100%;
       white-space: nowrap;
+      width: 100%;
     }
-    nav.sidebar ul.categories-list li button {
-      border-radius: 14px;
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      border: 1.5px solid transparent;
-      transition: background-color 0.25s ease, border-color 0.25s ease;
-    }
-    nav.sidebar ul.categories-list li button:hover,
-    nav.sidebar ul.categories-list li button.active {
-      border-color: #000;
-      background-color: #000;
+    ul#categories li button {
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-weight: 600;
+      font-size: 1rem;
+      background: #000;
       color: #fff;
+      box-shadow: none;
+      transition: background 0.3s ease;
     }
-    main.content {
-      padding: 1.5rem 1rem 8rem 1rem;
+    ul#categories li button:hover,
+    ul#categories li button.active {
+      background: #444;
+      box-shadow: 0 2px 10px rgba(0,0,0,.3);
+    }
+    main#main-content {
+      padding: 1.25rem 1.5rem;
     }
     #create-article-form {
       max-height: 80vh;
       width: 95vw;
-      padding: 1.5rem 1.75rem;
+      padding: 1.25rem 1.75rem;
+      border-radius: 12px;
+      font-size: 1rem;
     }
   }
 </style>
 </head>
 <body>
 <header>
-  Researcher &amp; Journal Publisher
-  <input type="search" id="search-box" placeholder="Search categories or articles" aria-label="Search" />
-  <button id="settings-btn" aria-label="Open settings">&#9881;</button>
+  <div id="header-title">Researcher Journal</div>
+  <input id="search-bar" type="search" placeholder="Search papers or categories..." aria-label="Search papers or categories" />
+  <button id="settings-btn" aria-label="Settings">⚙️</button>
 </header>
 <div id="container">
   <nav class="sidebar" aria-label="Categories">
-    <h2 class="home-button active" tabindex="0">Home</h2>
-    <ul class="categories-list" id="categories-list" role="list"></ul>
-    <button id="create-article-btn" aria-label="Create new article">Create Article</button>
+    <h2>Categories</h2>
+    <ul id="categories" role="list"></ul>
+    <button id="create-article-btn">Create New Paper</button>
   </nav>
-  <main class="content" id="main-content" tabindex="0" aria-live="polite">
-    <h1>Welcome to Researcher &amp; Journal Publisher</h1>
-    <p>Select a category or create a new article to begin.</p>
+  <main class="content" tabindex="0" aria-live="polite" id="main-content">
+    <h1>Welcome</h1>
+    <p>Browse categories, read papers, or create your own research.</p>
   </main>
 </div>
 
+<!-- Modal for creating new article -->
 <div id="create-article-modal" role="dialog" aria-modal="true" aria-labelledby="create-article-title" tabindex="-1">
-  <form id="create-article-form">
-    <h3 id="create-article-title">Create New Article</h3>
+  <form id="create-article-form" novalidate>
+    <h3 id="create-article-title">Create New Paper</h3>
     <label for="article-category">Category</label>
-    <input type="text" id="article-category" required />
+    <input id="article-category" name="category" required type="text" placeholder="Category name" />
     <label for="article-title">Title</label>
-    <input type="text" id="article-title" required />
+    <input id="article-title" name="title" required type="text" placeholder="Paper title" />
     <label for="article-content">Content</label>
-    <textarea id="article-content" required></textarea>
-    <button type="submit">Publish Article</button>
-    <button type="button" id="create-cancel">Cancel</button>
+    <textarea id="article-content" name="content" required placeholder="Enter abstract or paper content..."></textarea>
+    <button type="submit">Publish</button>
+    <button id="cancel-create-btn" type="button">Cancel</button>
   </form>
 </div>
 
-<div id="settings-section" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1" style="display:none; position:fixed; inset:0; background:#fff; padding:2rem;">
-  <h2 id="settings-title">Settings</h2>
-  <label><input type="checkbox" id="bw-toggle" /> Black &amp; White Theme</label>
-  <div style="margin-top:1rem;">
-    <button id="settings-close">Close</button>
-  </div>
-</div>
+<button id="exit-read-btn" aria-label="Exit reading mode">Exit Read Mode</button>
 
 <script>
   (() => {
-    const categoriesList = document.getElementById('categories-list');
-    const mainContent = document.getElementById('main-content');
-    const createArticleBtn = document.getElementById('create-article-btn');
-    const createArticleModal = document.getElementById('create-article-modal');
-    const createArticleForm = document.getElementById('create-article-form');
-    const createCancelBtn = document.getElementById('create-cancel');
-    const articleCategoryInput = document.getElementById('article-category');
-    const articleTitleInput = document.getElementById('article-title');
-    const articleContentInput = document.getElementById('article-content');
-    const searchBox = document.getElementById('search-box');
-    const homeButton = document.querySelector('.home-button');
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsSection = document.getElementById('settings-section');
-    const settingsCloseBtn = document.getElementById('settings-close');
-    const bwToggle = document.getElementById('bw-toggle');
+    // Persistent storage key:
+    const STORAGE_KEY = "researcher_journal_data";
 
-    let data = {};
+    // Get DOM elements
+    const categoriesElem = document.getElementById("categories");
+    const mainContent = document.getElementById("main-content");
+    const createBtn = document.getElementById("create-article-btn");
+    const modal = document.getElementById("create-article-modal");
+    const form = document.getElementById("create-article-form");
+    const cancelBtn = document.getElementById("cancel-create-btn");
+    const exitReadBtn = document.getElementById("exit-read-btn");
+    const searchBar = document.getElementById("search-bar");
+
+    // Load or initialize data
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
     let activeCategory = null;
 
-    function generateId(){
-      return 'id-'+Math.random().toString(36).substr(2,9);
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
-    function renderCategories(){
-      categoriesList.innerHTML = '';
-      Object.keys(data).sort().forEach(category => {
-        let catLi = document.createElement('li');
-        let catBtn = document.createElement('button');
-        catBtn.innerText = `${category} (${data[category].length})`;
-        catBtn.type = 'button';
-        catBtn.tabIndex = 0;
-        if(category === activeCategory) catBtn.classList.add('active');
-        catBtn.addEventListener('click', () => {
-          activeCategory = category;
-          renderCategories();
-          renderArticles(category);
-        });
-        catLi.appendChild(catBtn);
-        categoriesList.appendChild(catLi);
-      });
-      if(!activeCategory) {
-        mainContent.innerHTML = '<h1>Welcome</h1><p>Select a category or create a new article to start publishing.</p>';
-      }
+    function generateId() {
+      return 'id-' + Math.random().toString(36).substring(2, 9);
     }
 
-    function renderArticles(category){
-      const articles = data[category] || [];
-      if(articles.length === 0){
-        mainContent.innerHTML = `<h1>${category}</h1><p>No articles published in this category yet.</p>`;
+    function renderCategories() {
+      categoriesElem.innerHTML = '';
+      const sortedCategories = Object.keys(data).sort();
+      if (!activeCategory && sortedCategories.length) activeCategory = sortedCategories[0];
+      if (!sortedCategories.length) {
+        mainContent.innerHTML = `<h1>Welcome</h1><p>No research papers yet. Use "Create New Paper" to add your first one.</p>`;
         return;
       }
-      let html = `<h1>${category}</h1><ul style="list-style:none; padding-left:0;">`;
-      articles.forEach(({id, title}, i) => {
-        html += `<li><button type="button" data-id="${id}" style="width:100%; text-align:left; padding:10px;">${title}</button></li>`;
+      sortedCategories.forEach(cat => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type = "button";
+        btn.textContent = `${cat} (${data[cat].length})`;
+        if (cat === activeCategory) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+          activeCategory = cat;
+          renderCategories();
+          renderPapers(cat);
+        });
+        li.appendChild(btn);
+        categoriesElem.appendChild(li);
       });
-      html += '</ul>';
+      if (activeCategory) renderPapers(activeCategory);
+    }
+
+    function renderPapers(category) {
+      const papers = data[category] || [];
+      if (!papers.length) {
+        mainContent.innerHTML = `<h1>${category}</h1><p>No papers have been published here yet.</p>`;
+        return;
+      }
+      let html = `<h1>${category}</h1><ul style="list-style:none; padding:0; margin:0;">`;
+      papers.forEach(paper => {
+        html += `<li><button type="button" data-id="${paper.id}" style="padding:11px 0; width:100%; text-align:left; border-bottom:1px solid #ddd;">${paper.title}</button></li>`;
+      });
+      html += `</ul>`;
       mainContent.innerHTML = html;
-      // Attach listeners for articles
       mainContent.querySelectorAll('button[data-id]').forEach(btn => {
         btn.addEventListener('click', () => {
-          const article = articles.find(a=>a.id === btn.dataset.id);
-          if(article){
-            mainContent.innerHTML = `<h1>${article.title}</h1><p>${article.content.replace(/\n/g,'<br>')}</p><button id="back-btn">Back to list</button>`;
-            document.getElementById('back-btn').addEventListener('click', () => {
-              renderArticles(category);
-            });
-          }
+          const pid = btn.getAttribute('data-id');
+          const article = papers.find(p => p.id === pid);
+          if (article) showPaper(article, category);
         });
       });
     }
 
-    createArticleBtn.addEventListener('click', () => {
-      createArticleModal.style.display = 'flex';
-      articleCategoryInput.focus();
+    function showPaper(paper, category) {
+      mainContent.innerHTML = `<h1>${paper.title}</h1><h2>Category: ${category}</h2><p>${paper.content.replace(/\n/g,'<br>')}</p><button id="back-btn">Back</button>`;
+      document.getElementById('back-btn').addEventListener('click', () => {
+        renderPapers(category);
+      });
+    }
+
+    createBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      form.reset();
+      form.querySelector('input').focus();
     });
-    createCancelBtn.addEventListener('click', () => {
-      createArticleModal.style.display = 'none';
-      createArticleForm.reset();
+
+    cancelBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
     });
-    createArticleModal.addEventListener('click', e => {
-      if(e.target === createArticleModal){
-        createArticleModal.style.display = 'none';
-        createArticleForm.reset();
-      }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
     });
-    createArticleForm.addEventListener('submit', e => {
+
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const category = articleCategoryInput.value.trim();
-      const title = articleTitleInput.value.trim();
-      const content = articleContentInput.value.trim();
-      if(!category || !title || !content){
+      const category = form['category'].value.trim();
+      const title = form['title'].value.trim();
+      const content = form['content'].value.trim();
+      if (!category || !title || !content) {
         alert('Please fill all fields.');
         return;
       }
-      if(!data[category]){
-        data[category] = [];
-      }
-      const newId = generateId();
-      data[category].push({id: newId, title, content});
+      if (!data[category]) data[category] = [];
+      data[category].push({ id: generateId(), title, content });
+      save();
       activeCategory = category;
+      modal.classList.remove('active');
       renderCategories();
-      renderArticles(category);
-      createArticleModal.style.display = 'none';
-      createArticleForm.reset();
     });
-    searchBox.addEventListener('input', () => {
-      const term = searchBox.value.trim().toLowerCase();
-      const filteredCategories = Object.keys(data).filter(cat => 
-        cat.toLowerCase().includes(term) || 
-        data[cat].some(article => article.title.toLowerCase().includes(term))
+
+    exitReadBtn.addEventListener('click', () => {
+      document.body.classList.remove('reading-mode');
+      exitReadBtn.style.display = 'none';
+    });
+
+    // Optional 'Read Now' button inside mainContent
+    mainContent.addEventListener('click', (e) => {
+      if (e.target.id === 'read-now-btn') {
+        document.body.classList.add('reading-mode');
+        exitReadBtn.style.display = 'block';
+      }
+    });
+
+    searchBar.addEventListener('input', () => {
+      const term = searchBar.value.toLowerCase().trim();
+      if (!term) {
+        renderCategories();
+        return;
+      }
+      const filteredCats = Object.keys(data).filter(cat => 
+        cat.toLowerCase().includes(term) ||
+        data[cat].some(p => p.title.toLowerCase().includes(term) || p.content.toLowerCase().includes(term))
       );
-      categoriesList.innerHTML = '';
-      filteredCategories.forEach(cat => {
-        let catLi = document.createElement('li');
-        let catBtn = document.createElement('button');
-        catBtn.innerText = `${cat} (${data[cat].length})`;
-        catBtn.type = 'button';
-        catBtn.tabIndex = 0;
-        catBtn.addEventListener('click', () => {
+      categoriesElem.innerHTML = '';
+      filteredCats.forEach(cat => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = `${cat} (${data[cat].length})`;
+        btn.addEventListener('click', () => {
           activeCategory = cat;
           renderCategories();
-          renderArticles(cat);
+          renderPapers(cat);
         });
-        catLi.appendChild(catBtn);
-        categoriesList.appendChild(catLi);
+        li.appendChild(btn);
+        categoriesElem.appendChild(li);
       });
-      if (term === '') {
-        renderCategories();
-        if(activeCategory) renderArticles(activeCategory);
-      }
-      if (filteredCategories.length === 0) {
-        mainContent.innerHTML = '<h1>No results found</h1>';
+      if(filteredCats.length === 0){
+        mainContent.innerHTML = `<h1>No search results found</h1>`;
       }
     });
-    settingsBtn.addEventListener('click', () => {
-      settingsSection.style.display = 'block';
-      container.style.display = 'none';
-      header.style.display = 'none';
-      searchBox.disabled = true;
-    });
-    settingsCloseBtn.addEventListener('click', () => {
-      settingsSection.style.display = 'none';
-      container.style.display = 'flex';
-      header.style.display = 'flex';
-      searchBox.disabled = false;
-    });
-    bwToggle.addEventListener('change', () => {
-      if(bwToggle.checked){
-        document.body.style.background = '#000';
-        document.body.style.color = '#fff';
-      } else {
-        document.body.style.background = '#fff';
-        document.body.style.color = '#000';
-      }
-    });
-    // Initialize empty state
+
+    // Initialize
     renderCategories();
   })();
 </script>
