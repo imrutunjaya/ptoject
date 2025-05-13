@@ -2,529 +2,369 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Research Community & Journal Publisher</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Gov Exam Prep - Notes & Distraction-Free Reader</title>
 <style>
-  /*=== Base CSS ===*/
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body {
-    margin:0; padding:0;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: #fff;
-    color: #000;
+  /* Reset and base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fa;
+    color: #222;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
     height: 100vh;
-    display: flex; flex-direction: column;
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-  }
-  body.reading-mode {
-    background: #fff;
-  }
-  /*=== Header ===*/
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px; background: #000; color: #fff;
-    padding: 0 16px; font-weight: 600; font-size: 1.1rem;
-    user-select: none;
-  }
-  #search-bar {
-    flex-grow: 1;
-    height: 32px;
-    margin: 0 16px;
-    padding: 4px 12px;
-    border-radius: 16px;
-    border: none;
-    font-size: 1rem;
-    font-weight: 400;
-    color: #111;
-    background: #eee;
-    outline-offset: 2px;
-    transition: background-color 0.2s ease;
-  }
-  #search-bar::placeholder {
-    color: #888;
-  }
-  #search-bar:focus {
-    background: #fff;
-    outline: none;
-  }
-  button#settings-btn {
-    background: transparent; border: none; color: #fff;
-    font-size: 1.25rem; cursor: pointer; user-select: none;
-    transition: color 0.2s ease;
-  }
-  button#settings-btn:hover, button#settings-btn:focus { color: #777; outline:none;}
-  /*=== Layout ===*/
-  #app {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    grid-template-rows: 1fr;
-    overflow: hidden;
-  }
-  /* Sidebar */
-  nav#sidebar {
-    background: #f7f7f7;
-    border-right: 1px solid #ddd;
-    display: flex; flex-direction: column;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  nav#sidebar h2 {
-    margin-top: 0; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem;
-  }
-  ul#categories {
-    list-style: none;
-    padding-left: 0; margin: 0; flex-grow: 1; overflow-y: auto;
-  }
-  ul#categories li {
-    margin-bottom: 0.6rem;
-  }
-  ul#categories button {
-    all: unset;
-    width: 100%; text-align: left;
-    padding: 8px 12px;
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  ul#categories button.active, ul#categories button:hover {
-    background-color: #000;
-    color: #fff;
-  }
-  /* Main content */
-  main#main-content {
-    background: #fff;
-    padding: 2rem 3rem;
-    overflow-y: auto;
-    min-height: 0;
-    font-size: 1.15rem;
-    line-height: 1.6;
-    user-select: text;
-  }
-  main#main-content h1,
-  main#main-content h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-weight: 700;
-  }
-  main#main-content h1 { font-size: 2.4rem; }
-  main#main-content h2 { font-size: 1.8rem; margin-top: 3rem; }
-  main#main-content p {
-    margin-bottom: 1rem;
-    white-space: pre-wrap;
-  }
-  main#main-content button {
-    margin-top: 1.5rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #000;
-    border: none;
-    border-radius: 24px;
-    color: #fff;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    user-select: none;
-    transition: background-color 0.3s ease;
-  }
-  main#main-content button:hover, main#main-content button:focus {
-    background-color: #444;
-    outline: none;
-  }
-  /* Create Article Modal */
-  #create-article-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  #create-article-modal.active {
-    display: flex;
-  }
-  #create-article-form {
-    background: #fff;
-    padding: 2rem 2.5rem;
-    width: 400px;
-    max-width: 90vw;
-    max-height: 80vh;
-    overflow-y: auto;
-    border-radius: 16px;
-    box-shadow: 0 4px 40px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    font-family: 'Georgia', serif;
-  }
-  #create-article-form h3 {
-    margin: 0 0 1.4rem 0;
-    font-weight: 700;
-    font-size: 2rem;
-    letter-spacing: 0.03em;
-    user-select: none;
-  }
-  #create-article-form label {
-    font-weight: 600;
-    margin: 0.8rem 0 0.4rem 0;
-  }
-  #create-article-form input,
-  #create-article-form textarea {
-    font-family: 'Georgia', serif;
-    font-size: 1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    border: 1px solid #ccc;
-    resize: vertical;
-  }
-  #create-article-form textarea {
-    min-height: 150px;
-  }
-  #create-article-form button {
-    margin-top: 2rem;
-    padding: 1rem 0;
-    font-weight: 700;
-    font-size: 1.2rem;
-    border-radius: 24px;
-    background-color: #000;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.3s ease;
-  }
-  #create-article-form button:hover,
-  #create-article-form button:focus {
-    background-color: #444;
-    outline: none;
-  }
-  #cancel-btn {
-    margin-top: 1rem;
-    background: none;
-    color: #666;
-    font-style: italic;
-    border: none;
-    cursor: pointer;
-    align-self: flex-end;
-    font-size: 1rem;
-  }
-  #cancel-btn:hover,
-  #cancel-btn:focus {
-    color: #444;
-    outline: none;
-  }
-  /* Progress bar container */
-  #progress-container {
-    margin-top: 1.5rem;
-    height: 12px;
-    width: 100%;
-    background: #e0e0e0;
-    border-radius: 10px;
     overflow: hidden;
-    display: none;
   }
-  #progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #000;
-    transition: width 0.3s ease;
-  }
-  /* Reading Mode */
-  body.reading-mode header,
-  body.reading-mode nav.sidebar,
-  body.reading-mode #create-article-modal,
-  body.reading-mode #create-article-btn,
-  body.reading-mode #settings-btn {
-    display: none !important;
-  }
-  body.reading-mode main.content {
-    max-width: 700px;
-    margin: 3rem auto;
-    font-size: 1.25rem;
-    line-height: 1.8;
-    background: #fff;
-    color: #000;
-    border-radius: 16px;
-    box-shadow: 0 0 30px #0002;
-    padding: 3rem;
-    user-select: text;
-    outline: none;
-  }
-  #exit-read-btn {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    background: #e74c3c;
+  header {
+    background: #2a6ebb;
     color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 2000;
-    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.8);
+    padding: 1rem 1.2rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
     user-select: none;
-    display: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   }
-  #exit-read-btn:hover,
-  #exit-read-btn:focus {
-    background: #c0392b;
+  nav {
+    display: flex;
+    background: #1f528b;
+    font-weight: 600;
+  }
+  nav button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0.8rem 0;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+  nav button.active,
+  nav button:hover,
+  nav button:focus {
+    background: #174273;
     outline: none;
   }
-  body.reading-mode #exit-read-btn {
+  main {
+    flex: 1;
+    background: white;
+    padding: 1rem 1.2rem 1.2rem 1.2rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  section {
+    display: none;
+  }
+  section.active {
     display: block;
   }
-  /* Responsive */
-  @media (max-width: 900px) {
-    #container {
-      flex-direction: column;
-      height: auto;
-      max-width: 700px;
-      margin: 0 auto;
+  h2 {
+    margin-top: 0;
+    font-weight: 700;
+    color: #1f3d7a;
+    font-size: 1.3rem;
+    border-bottom: 3px solid #2a6ebb;
+    padding-bottom: 0.2rem;
+    user-select: none;
+  }
+  h3 {
+    color: #29527a;
+    margin-bottom: 0.25rem;
+  }
+  ul {
+    padding-left: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #343a40;
+  }
+  li {
+    margin-bottom: 0.5rem;
+  }
+  /* Note area styling */
+  #noteArea {
+    width: 100%;
+    height: 280px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 0.7rem;
+    border: 2px solid #2a6ebb;
+    border-radius: 6px;
+    resize: none;
+    outline: none;
+    background: #eef4fb;
+    color: #222;
+  }
+  #saveNoteBtn {
+    margin-top: 0.5rem;
+    background: #2a6ebb;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  #saveNoteBtn:hover,
+  #saveNoteBtn:focus {
+    background: #1f4f8a;
+    outline: none;
+  }
+  /* Distraction-Free style */
+  #distractionToggle {
+    margin-bottom: 1rem;
+    background: #2a6ebb;
+    color: white;
+    border: none;
+    padding: 0.55rem 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  #distractionToggle:hover,
+  #distractionToggle:focus {
+    background: #1f4f8a;
+    outline: none;
+  }
+
+  /* Distraction free mode styles */
+  body.distraction-free main {
+    padding: 1rem;
+    background: white;
+  }
+  body.distraction-free header,
+  body.distraction-free nav {
+    display: none;
+  }
+  body.distraction-free #distractionToggle {
+    background: #2471a3;
+    font-size: 1.1rem;
+    border-radius: 0;
+    padding: 1rem;
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+  }
+  body.distraction-free #noteArea {
+    height: 90vh;
+    background: #fff;
+    border: none;
+    font-size: 1.15rem;
+    padding: 1rem;
+  }
+
+  /* Scrollbar for main */
+  main::-webkit-scrollbar {
+    width: 6px;
+  }
+  main::-webkit-scrollbar-thumb {
+    background-color: #2a6ebb;
+    border-radius: 3px;
+  }
+
+  /* Mobile font adjustments */
+  @media (max-width: 350px) {
+    body {
+      font-size: 15px;
     }
-    nav.sidebar {
-      width: 100%;
-      height: 70px;
-      padding: 0.5rem 1rem;
-      overflow-x: auto;
-      border-right: none;
-      border-bottom: 1px solid #ccc;
-      flex-direction: row;
-      justify-content: start;
-      align-items: center;
+    h2 {
+      font-size: 1.15rem;
     }
-    nav.sidebar h2 {
-      display: none;
-    }
-    ul#categories {
-      display: flex;
-      gap: 0.75rem;
-      margin: 0;
-      padding: 0;
-      overflow-x: auto;
-      white-space: nowrap;
-      width: 100%;
-    }
-    ul#categories li button {
-      border-radius: 20px;
-      padding: 8px 18px;
-      font-weight: 600;
-      font-size: 1rem;
-      background: #000;
-      color: #fff;
-      box-shadow: none;
-      transition: background 0.3s ease;
-    }
-    ul#categories li button:hover,
-    ul#categories li button.active {
-      background: #444;
-      box-shadow: 0 2px 10px rgba(0,0,0,.3);
-    }
-    main#main-content {
-      padding: 1.25rem 1.5rem;
-    }
-    #create-article-form {
-      max-height: 80vh;
-      width: 95vw;
-      padding: 1.25rem 1.75rem;
-      border-radius: 12px;
-      font-size: 1rem;
+    nav button {
+      font-size: 0.9rem;
     }
   }
 </style>
 </head>
 <body>
 <header>
-  <div id="header-title">Researcher Journal</div>
-  <input id="search-bar" type="search" placeholder="Search papers or categories..." aria-label="Search papers or categories" />
-  <button id="settings-btn" aria-label="Settings">⚙️</button>
+  Government Exam Prep
 </header>
-<div id="container">
-  <nav class="sidebar" aria-label="Categories">
-    <h2>Categories</h2>
-    <ul id="categories" role="list"></ul>
-    <button id="create-article-btn">Create New Paper</button>
-  </nav>
-  <main class="content" tabindex="0" aria-live="polite" id="main-content">
-    <h1>Welcome</h1>
-    <p>Browse categories, read papers, or create your own research.</p>
-  </main>
-</div>
+<nav role="navigation" aria-label="Primary navigation">
+  <button id="nav-study" aria-controls="studyNotesSection" class="active" aria-current="page">Study Notes</button>
+  <button id="nav-your-notes" aria-controls="yourNotesSection">Your Notes</button>
+  <button id="nav-distraction" aria-controls="distractionSection">Distraction-Free</button>
+</nav>
+<main tabindex="0">
+  <section id="studyNotesSection" class="active" role="region" aria-label="Study notes section">
+    <h2>Study Notes for Government Exams</h2>
 
-<!-- Modal for creating new article -->
-<div id="create-article-modal" role="dialog" aria-modal="true" aria-labelledby="create-article-title" tabindex="-1">
-  <form id="create-article-form" novalidate>
-    <h3 id="create-article-title">Create New Paper</h3>
-    <label for="article-category">Category</label>
-    <input id="article-category" name="category" required type="text" placeholder="Category name" />
-    <label for="article-title">Title</label>
-    <input id="article-title" name="title" required type="text" placeholder="Paper title" />
-    <label for="article-content">Content</label>
-    <textarea id="article-content" name="content" required placeholder="Enter abstract or paper content..."></textarea>
-    <button type="submit">Publish</button>
-    <button id="cancel-create-btn" type="button">Cancel</button>
-  </form>
-</div>
+    <h3>1. General Awareness</h3>
+    <ul>
+      <li>Important current affairs: National & International news of past 6 months.</li>
+      <li>Indian Constitution - fundamental rights, duties, articles.</li>
+      <li>History - freedom movement leaders, major events.</li>
+      <li>Geography - important rivers, mountains, states & capitals.</li>
+    </ul>
 
-<button id="exit-read-btn" aria-label="Exit reading mode">Exit Read Mode</button>
+    <h3>2. Quantitative Aptitude</h3>
+    <ul>
+      <li>Number systems and simplification techniques.</li>
+      <li>Ratio, proportion, percentage, averages.</li>
+      <li>Time, speed and distance, work and time problems.</li>
+      <li>Algebra basics and important formulas.</li>
+    </ul>
+
+    <h3>3. Reasoning Ability</h3>
+    <ul>
+      <li>Seating arrangement and puzzles practice.</li>
+      <li>Blood relations, directions, coding-decoding.</li>
+      <li>Analogy and series problems.</li>
+      <li>Syllogism and logical deduction.</li>
+    </ul>
+
+    <h3>4. English Language</h3>
+    <ul>
+      <li>Reading comprehension practice regularly.</li>
+      <li>Vocabulary building: Synonyms, antonyms, idioms.</li>
+      <li>Grammar basics: Tenses, parts of speech, error spotting.</li>
+      <li>Sentence improvement and para jumbles.</li>
+    </ul>
+
+    <h3>5. Exam Tips</h3>
+    <ul>
+      <li>Practice time management during mock tests.</li>
+      <li>Focus on accuracy to avoid negative marking.</li>
+      <li>Revise frequently and use flashcards for memory.</li>
+      <li>Stay calm and maintain a healthy study routine.</li>
+    </ul>
+  </section>
+
+  <section id="yourNotesSection" role="region" aria-label="Your personal notes section">
+    <h2>Your Personal Notes</h2>
+    <textarea id="noteArea" placeholder="Write your notes here..."></textarea>
+    <button id="saveNoteBtn" aria-live="polite">Save Notes</button>
+  </section>
+
+  <section id="distractionSection" role="region" aria-label="Distraction free reading mode">
+    <h2>Distraction-Free Reading</h2>
+    <p>This mode hides all UI except your notes for focused reading and writing.</p>
+    <textarea id="distractionNoteArea" placeholder="Your notes here..." readonly></textarea>
+    <button id="distractionToggle" aria-pressed="false">Enable Distraction-Free Mode</button>
+  </section>
+</main>
 
 <script>
-  (() => {
-    // Persistent storage key:
-    const STORAGE_KEY = "researcher_journal_data";
+  (function(){
+    // Navigation buttons and section toggling
+    const navButtons = {
+      study: document.getElementById('nav-study'),
+      yourNotes: document.getElementById('nav-your-notes'),
+      distraction: document.getElementById('nav-distraction')
+    };
+    const sections = {
+      study: document.getElementById('studyNotesSection'),
+      yourNotes: document.getElementById('yourNotesSection'),
+      distraction: document.getElementById('distractionSection')
+    };
 
-    // Get DOM elements
-    const categoriesElem = document.getElementById("categories");
-    const mainContent = document.getElementById("main-content");
-    const createBtn = document.getElementById("create-article-btn");
-    const modal = document.getElementById("create-article-modal");
-    const form = document.getElementById("create-article-form");
-    const cancelBtn = document.getElementById("cancel-create-btn");
-    const exitReadBtn = document.getElementById("exit-read-btn");
-    const searchBar = document.getElementById("search-bar");
-
-    // Load or initialize data
-    let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    let activeCategory = null;
-
-    function save() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    }
-
-    function generateId() {
-      return 'id-' + Math.random().toString(36).substring(2, 9);
-    }
-
-    function renderCategories() {
-      categoriesElem.innerHTML = '';
-      const sortedCategories = Object.keys(data).sort();
-      if (!activeCategory && sortedCategories.length) activeCategory = sortedCategories[0];
-      if (!sortedCategories.length) {
-        mainContent.innerHTML = `<h1>Welcome</h1><p>No research papers yet. Use "Create New Paper" to add your first one.</p>`;
-        return;
-      }
-      sortedCategories.forEach(cat => {
-        const li = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.type = "button";
-        btn.textContent = `${cat} (${data[cat].length})`;
-        if (cat === activeCategory) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-          activeCategory = cat;
-          renderCategories();
-          renderPapers(cat);
-        });
-        li.appendChild(btn);
-        categoriesElem.appendChild(li);
+    function clearActive() {
+      Object.values(navButtons).forEach(btn => {
+        btn.classList.remove('active');
+        btn.removeAttribute('aria-current');
       });
-      if (activeCategory) renderPapers(activeCategory);
-    }
-
-    function renderPapers(category) {
-      const papers = data[category] || [];
-      if (!papers.length) {
-        mainContent.innerHTML = `<h1>${category}</h1><p>No papers have been published here yet.</p>`;
-        return;
-      }
-      let html = `<h1>${category}</h1><ul style="list-style:none; padding:0; margin:0;">`;
-      papers.forEach(paper => {
-        html += `<li><button type="button" data-id="${paper.id}" style="padding:11px 0; width:100%; text-align:left; border-bottom:1px solid #ddd;">${paper.title}</button></li>`;
-      });
-      html += `</ul>`;
-      mainContent.innerHTML = html;
-      mainContent.querySelectorAll('button[data-id]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const pid = btn.getAttribute('data-id');
-          const article = papers.find(p => p.id === pid);
-          if (article) showPaper(article, category);
-        });
+      Object.values(sections).forEach(sec => {
+        sec.classList.remove('active');
       });
     }
 
-    function showPaper(paper, category) {
-      mainContent.innerHTML = `<h1>${paper.title}</h1><h2>Category: ${category}</h2><p>${paper.content.replace(/\n/g,'<br>')}</p><button id="back-btn">Back</button>`;
-      document.getElementById('back-btn').addEventListener('click', () => {
-        renderPapers(category);
-      });
+    navButtons.study.addEventListener('click', ()=>{
+      clearActive();
+      navButtons.study.classList.add('active');
+      navButtons.study.setAttribute('aria-current', 'page');
+      sections.study.classList.add('active');
+      document.body.classList.remove('distraction-free');
+      document.getElementById('distractionToggle').setAttribute('aria-pressed', 'false');
+    });
+
+    navButtons.yourNotes.addEventListener('click', ()=>{
+      clearActive();
+      navButtons.yourNotes.classList.add('active');
+      navButtons.yourNotes.setAttribute('aria-current', 'page');
+      sections.yourNotes.classList.add('active');
+      document.body.classList.remove('distraction-free');
+      document.getElementById('distractionToggle').setAttribute('aria-pressed', 'false');
+      document.getElementById('noteArea').focus();
+    });
+
+    navButtons.distraction.addEventListener('click', ()=>{
+      clearActive();
+      navButtons.distraction.classList.add('active');
+      navButtons.distraction.setAttribute('aria-current', 'page');
+      sections.distraction.classList.add('active');
+      loadDistractionNote();
+      document.getElementById('distractionToggle').setAttribute('aria-pressed', 'false');
+      document.body.classList.remove('distraction-free');
+    });
+
+    // Note saving and loading
+    const noteArea = document.getElementById('noteArea');
+    const saveNoteBtn = document.getElementById('saveNoteBtn');
+    const distractionNoteArea = document.getElementById('distractionNoteArea');
+    const distractionToggleBtn = document.getElementById('distractionToggle');
+
+    function saveNotes() {
+      const content = noteArea.value.trim();
+      localStorage.setItem('govExamUserNotes', content);
+      alert('Notes saved successfully!');
     }
 
-    createBtn.addEventListener('click', () => {
-      modal.classList.add('active');
-      form.reset();
-      form.querySelector('input').focus();
-    });
-
-    cancelBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const category = form['category'].value.trim();
-      const title = form['title'].value.trim();
-      const content = form['content'].value.trim();
-      if (!category || !title || !content) {
-        alert('Please fill all fields.');
-        return;
+    function loadNotes() {
+      const saved = localStorage.getItem('govExamUserNotes');
+      if(saved) {
+        noteArea.value = saved;
       }
-      if (!data[category]) data[category] = [];
-      data[category].push({ id: generateId(), title, content });
-      save();
-      activeCategory = category;
-      modal.classList.remove('active');
-      renderCategories();
+    }
+
+    function loadDistractionNote() {
+      const saved = localStorage.getItem('govExamUserNotes') || '';
+      distractionNoteArea.value = saved;
+    }
+
+    saveNoteBtn.addEventListener('click', ()=>{
+      saveNotes();
+      loadDistractionNote();
     });
 
-    exitReadBtn.addEventListener('click', () => {
-      document.body.classList.remove('reading-mode');
-      exitReadBtn.style.display = 'none';
-    });
-
-    // Optional 'Read Now' button inside mainContent
-    mainContent.addEventListener('click', (e) => {
-      if (e.target.id === 'read-now-btn') {
-        document.body.classList.add('reading-mode');
-        exitReadBtn.style.display = 'block';
+    // Distraction free toggle
+    distractionToggleBtn.addEventListener('click', ()=>{
+      const pressed = distractionToggleBtn.getAttribute('aria-pressed') === 'true';
+      if(pressed) {
+        // disable distraction free
+        document.body.classList.remove('distraction-free');
+        distractionToggleBtn.textContent = 'Enable Distraction-Free Mode';
+        distractionToggleBtn.setAttribute('aria-pressed', 'false');
+      } else {
+        // enable distraction free
+        document.body.classList.add('distraction-free');
+        distractionToggleBtn.textContent = 'Disable Distraction-Free Mode';
+        distractionToggleBtn.setAttribute('aria-pressed', 'true');
+        distractionNoteArea.focus();
       }
     });
 
-    searchBar.addEventListener('input', () => {
-      const term = searchBar.value.toLowerCase().trim();
-      if (!term) {
-        renderCategories();
-        return;
-      }
-      const filteredCats = Object.keys(data).filter(cat => 
-        cat.toLowerCase().includes(term) ||
-        data[cat].some(p => p.title.toLowerCase().includes(term) || p.content.toLowerCase().includes(term))
-      );
-      categoriesElem.innerHTML = '';
-      filteredCats.forEach(cat => {
-        const li = document.createElement('li');
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.textContent = `${cat} (${data[cat].length})`;
-        btn.addEventListener('click', () => {
-          activeCategory = cat;
-          renderCategories();
-          renderPapers(cat);
-        });
-        li.appendChild(btn);
-        categoriesElem.appendChild(li);
-      });
-      if(filteredCats.length === 0){
-        mainContent.innerHTML = `<h1>No search results found</h1>`;
-      }
+    // Load notes on page load
+    window.addEventListener('load', ()=>{
+      loadNotes();
     });
-
-    // Initialize
-    renderCategories();
   })();
 </script>
 </body>
 </html>
+
