@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Gov Exam Prep - Notes & Distraction-Free Reader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Research & Study Helper</title>
 <style>
   /* Reset and base */
   *, *::before, *::after {
@@ -11,359 +11,297 @@
   }
   body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f7fa;
-    color: #222;
-    max-width: 350px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: #fff;
+    color: #111;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
   }
+
   header {
-    background: #2a6ebb;
-    color: white;
-    padding: 1rem 1.2rem;
     text-align: center;
-    font-size: 1.6rem;
-    font-weight: 700;
-    user-select: none;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    padding: 1rem 0.5rem;
+    font-weight: 600;
+    font-size: 1.4rem;
+    border-bottom: 1px solid #ccc;
   }
+
   nav {
     display: flex;
-    background: #1f528b;
-    font-weight: 600;
+    justify-content: center;
+    border-bottom: 1px solid #ddd;
   }
   nav button {
     flex: 1;
-    background: transparent;
+    background: none;
     border: none;
-    color: white;
-    padding: 0.8rem 0;
-    font-size: 0.95rem;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
     cursor: pointer;
-    transition: background-color 0.25s ease;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
   }
-  nav button.active,
-  nav button:hover,
-  nav button:focus {
-    background: #174273;
-    outline: none;
+  nav button.active {
+    color: #007acc;
+    border-bottom-color: #007acc;
   }
+
   main {
-    flex: 1;
-    background: white;
-    padding: 1rem 1.2rem 1.2rem 1.2rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    flex-grow: 1;
+    max-width: 640px;
+    margin: 1rem auto;
+    padding: 0 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
+
   section {
     display: none;
+    flex-direction: column;
+    height: 100%;
   }
   section.active {
-    display: block;
+    display: flex;
   }
-  h2 {
-    margin-top: 0;
-    font-weight: 700;
-    color: #1f3d7a;
-    font-size: 1.3rem;
-    border-bottom: 3px solid #2a6ebb;
-    padding-bottom: 0.2rem;
-    user-select: none;
+
+  .search-box {
+    display: flex;
+    gap: 0.5rem;
   }
-  h3 {
-    color: #29527a;
-    margin-bottom: 0.25rem;
+  input[type="text"] {
+    flex-grow: 1;
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid #ccc;
+    border-radius: 4px;
+    outline-offset: 2px;
+    transition: border-color 0.25s;
   }
-  ul {
-    padding-left: 1.3rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: #343a40;
+  input[type="text"]:focus {
+    border-color: #007acc;
   }
-  li {
-    margin-bottom: 0.5rem;
+  button.search-btn {
+    background: #007acc;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 0 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
   }
-  /* Note area styling */
-  #noteArea {
-    width: 100%;
-    height: 280px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  button.search-btn:disabled {
+    background: #aaccee;
+    cursor: not-allowed;
+  }
+  button.search-btn:hover:not(:disabled) {
+    background: #005f99;
+  }
+
+  .result {
+    margin-top: 1rem;
+    flex-grow: 1;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background: #fafafa;
+    overflow-y: auto;
+    white-space: pre-line;
     font-size: 1rem;
     line-height: 1.4;
-    padding: 0.7rem;
-    border: 2px solid #2a6ebb;
-    border-radius: 6px;
-    resize: none;
-    outline: none;
-    background: #eef4fb;
-    color: #222;
+    min-height: 12rem;
+    max-height: 30vh;
   }
-  #saveNoteBtn {
+
+  .save-btn {
     margin-top: 0.5rem;
-    background: #2a6ebb;
+    align-self: flex-end;
+    background: #28a745;
     color: white;
-    border: none;
-    padding: 0.6rem 1.1rem;
     font-weight: 600;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  #saveNoteBtn:hover,
-  #saveNoteBtn:focus {
-    background: #1f4f8a;
-    outline: none;
-  }
-  /* Distraction-Free style */
-  #distractionToggle {
-    margin-bottom: 1rem;
-    background: #2a6ebb;
-    color: white;
     border: none;
-    padding: 0.55rem 1rem;
-    font-weight: 600;
-    border-radius: 5px;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    user-select: none;
-    width: 100%;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  #distractionToggle:hover,
-  #distractionToggle:focus {
-    background: #1f4f8a;
-    outline: none;
-  }
-
-  /* Distraction free mode styles */
-  body.distraction-free main {
-    padding: 1rem;
-    background: white;
-  }
-  body.distraction-free header,
-  body.distraction-free nav {
     display: none;
+    user-select: none;
+    transition: background-color 0.3s;
   }
-  body.distraction-free #distractionToggle {
-    background: #2471a3;
-    font-size: 1.1rem;
-    border-radius: 0;
-    padding: 1rem;
-    width: 100vw;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-  }
-  body.distraction-free #noteArea {
-    height: 90vh;
-    background: #fff;
-    border: none;
-    font-size: 1.15rem;
-    padding: 1rem;
+  .save-btn:hover {
+    background: #1e7e34;
   }
 
-  /* Scrollbar for main */
-  main::-webkit-scrollbar {
-    width: 6px;
-  }
-  main::-webkit-scrollbar-thumb {
-    background-color: #2a6ebb;
-    border-radius: 3px;
+  footer {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    color: #555;
+    text-align: center;
+    border-top: 1px solid #ddd;
   }
 
-  /* Mobile font adjustments */
-  @media (max-width: 350px) {
-    body {
-      font-size: 15px;
-    }
-    h2 {
-      font-size: 1.15rem;
-    }
+  @media (max-width: 480px) {
     nav button {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      padding: 0.6rem 0;
+    }
+    .result {
+      font-size: 0.95rem;
+      min-height: 10rem;
+      max-height: 25vh;
     }
   }
 </style>
 </head>
 <body>
-<header>
-  Government Exam Prep
-</header>
-<nav role="navigation" aria-label="Primary navigation">
-  <button id="nav-study" aria-controls="studyNotesSection" class="active" aria-current="page">Study Notes</button>
-  <button id="nav-your-notes" aria-controls="yourNotesSection">Your Notes</button>
-  <button id="nav-distraction" aria-controls="distractionSection">Distraction-Free</button>
+<header>Research &amp; Study Helper</header>
+<nav role="tablist" aria-label="Research and Study Tabs">
+  <button role="tab" id="tab-research" aria-controls="panel-research" aria-selected="true" class="active">Research</button>
+  <button role="tab" id="tab-study" aria-controls="panel-study" aria-selected="false">Study</button>
 </nav>
-<main tabindex="0">
-  <section id="studyNotesSection" class="active" role="region" aria-label="Study notes section">
-    <h2>Study Notes for Government Exams</h2>
-
-    <h3>1. General Awareness</h3>
-    <ul>
-      <li>Important current affairs: National & International news of past 6 months.</li>
-      <li>Indian Constitution - fundamental rights, duties, articles.</li>
-      <li>History - freedom movement leaders, major events.</li>
-      <li>Geography - important rivers, mountains, states & capitals.</li>
-    </ul>
-
-    <h3>2. Quantitative Aptitude</h3>
-    <ul>
-      <li>Number systems and simplification techniques.</li>
-      <li>Ratio, proportion, percentage, averages.</li>
-      <li>Time, speed and distance, work and time problems.</li>
-      <li>Algebra basics and important formulas.</li>
-    </ul>
-
-    <h3>3. Reasoning Ability</h3>
-    <ul>
-      <li>Seating arrangement and puzzles practice.</li>
-      <li>Blood relations, directions, coding-decoding.</li>
-      <li>Analogy and series problems.</li>
-      <li>Syllogism and logical deduction.</li>
-    </ul>
-
-    <h3>4. English Language</h3>
-    <ul>
-      <li>Reading comprehension practice regularly.</li>
-      <li>Vocabulary building: Synonyms, antonyms, idioms.</li>
-      <li>Grammar basics: Tenses, parts of speech, error spotting.</li>
-      <li>Sentence improvement and para jumbles.</li>
-    </ul>
-
-    <h3>5. Exam Tips</h3>
-    <ul>
-      <li>Practice time management during mock tests.</li>
-      <li>Focus on accuracy to avoid negative marking.</li>
-      <li>Revise frequently and use flashcards for memory.</li>
-      <li>Stay calm and maintain a healthy study routine.</li>
-    </ul>
+<main>
+  <section id="panel-research" role="tabpanel" aria-labelledby="tab-research" class="active">
+    <div class="search-box">
+      <input type="text" id="input-research" aria-label="Research question input" placeholder="Enter research question..." autocomplete="off" />
+      <button id="btn-research" class="search-btn" disabled>Search</button>
+    </div>
+    <div id="result-research" class="result" aria-live="polite"></div>
+    <button id="save-research" class="save-btn" aria-label="Save research result as text file">Save as Text File</button>
   </section>
-
-  <section id="yourNotesSection" role="region" aria-label="Your personal notes section">
-    <h2>Your Personal Notes</h2>
-    <textarea id="noteArea" placeholder="Write your notes here..."></textarea>
-    <button id="saveNoteBtn" aria-live="polite">Save Notes</button>
-  </section>
-
-  <section id="distractionSection" role="region" aria-label="Distraction free reading mode">
-    <h2>Distraction-Free Reading</h2>
-    <p>This mode hides all UI except your notes for focused reading and writing.</p>
-    <textarea id="distractionNoteArea" placeholder="Your notes here..." readonly></textarea>
-    <button id="distractionToggle" aria-pressed="false">Enable Distraction-Free Mode</button>
+  <section id="panel-study" role="tabpanel" aria-labelledby="tab-study">
+    <div class="search-box">
+      <input type="text" id="input-study" aria-label="Study question input" placeholder="Enter study question..." autocomplete="off" />
+      <button id="btn-study" class="search-btn" disabled>Search</button>
+    </div>
+    <div id="result-study" class="result" aria-live="polite"></div>
+    <button id="save-study" class="save-btn" aria-label="Save study result as text file">Save as Text File</button>
   </section>
 </main>
-
+<footer>© 2024 Research & Study Helper - Data from Wikipedia</footer>
 <script>
-  (function(){
-    // Navigation buttons and section toggling
-    const navButtons = {
-      study: document.getElementById('nav-study'),
-      yourNotes: document.getElementById('nav-your-notes'),
-      distraction: document.getElementById('nav-distraction')
-    };
-    const sections = {
-      study: document.getElementById('studyNotesSection'),
-      yourNotes: document.getElementById('yourNotesSection'),
-      distraction: document.getElementById('distractionSection')
-    };
-
-    function clearActive() {
-      Object.values(navButtons).forEach(btn => {
-        btn.classList.remove('active');
-        btn.removeAttribute('aria-current');
+  // Tabs logic
+  const tabs = document.querySelectorAll('nav button[role="tab"]');
+  const panels = document.querySelectorAll('main section[role="tabpanel"]');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        const selected = t === tab;
+        t.setAttribute('aria-selected', selected);
+        t.classList.toggle('active', selected);
       });
-      Object.values(sections).forEach(sec => {
-        sec.classList.remove('active');
+      panels.forEach(panel => {
+        panel.classList.toggle('active', panel.id === 'panel-' + tab.id.split('-')[1]);
       });
-    }
-
-    navButtons.study.addEventListener('click', ()=>{
-      clearActive();
-      navButtons.study.classList.add('active');
-      navButtons.study.setAttribute('aria-current', 'page');
-      sections.study.classList.add('active');
-      document.body.classList.remove('distraction-free');
-      document.getElementById('distractionToggle').setAttribute('aria-pressed', 'false');
     });
+  });
 
-    navButtons.yourNotes.addEventListener('click', ()=>{
-      clearActive();
-      navButtons.yourNotes.classList.add('active');
-      navButtons.yourNotes.setAttribute('aria-current', 'page');
-      sections.yourNotes.classList.add('active');
-      document.body.classList.remove('distraction-free');
-      document.getElementById('distractionToggle').setAttribute('aria-pressed', 'false');
-      document.getElementById('noteArea').focus();
+  // Enable/disable search buttons
+  function handleInput(inputEl, btnEl) {
+    inputEl.addEventListener('input', () => {
+      btnEl.disabled = inputEl.value.trim() === '';
     });
+  }
 
-    navButtons.distraction.addEventListener('click', ()=>{
-      clearActive();
-      navButtons.distraction.classList.add('active');
-      navButtons.distraction.setAttribute('aria-current', 'page');
-      sections.distraction.classList.add('active');
-      loadDistractionNote();
-      document.getElementById('distractionToggle').setAttribute('aria-pressed', 'false');
-      document.body.classList.remove('distraction-free');
-    });
+  const inputResearch = document.getElementById('input-research');
+  const btnResearch = document.getElementById('btn-research');
+  handleInput(inputResearch, btnResearch);
+  const resultResearch = document.getElementById('result-research');
+  const saveResearch = document.getElementById('save-research');
 
-    // Note saving and loading
-    const noteArea = document.getElementById('noteArea');
-    const saveNoteBtn = document.getElementById('saveNoteBtn');
-    const distractionNoteArea = document.getElementById('distractionNoteArea');
-    const distractionToggleBtn = document.getElementById('distractionToggle');
+  const inputStudy = document.getElementById('input-study');
+  const btnStudy = document.getElementById('btn-study');
+  handleInput(inputStudy, btnStudy);
+  const resultStudy = document.getElementById('result-study');
+  const saveStudy = document.getElementById('save-study');
 
-    function saveNotes() {
-      const content = noteArea.value.trim();
-      localStorage.setItem('govExamUserNotes', content);
-      alert('Notes saved successfully!');
-    }
+  // Save text as file utility
+  function saveTextFile(filename, text) {
+    const blob = new Blob([text], {type: 'text/plain'});
+    const a = document.createElement("a");
+    a.download = filename;
+    a.href = URL.createObjectURL(blob);
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+    }, 150);
+  }
 
-    function loadNotes() {
-      const saved = localStorage.getItem('govExamUserNotes');
-      if(saved) {
-        noteArea.value = saved;
+  // Wikipedia API fetch with CORS origin=*
+  async function fetchWikiSummary(query) {
+    if (!query) return '';
+    const endpoint = 'https://en.wikipedia.org/w/api.php' +
+      '?action=query' +
+      '&format=json' +
+      '&prop=extracts' +
+      '&exintro=true' +
+      '&explaintext=true' +
+      '&redirects=1' +
+      '&origin=*' + 
+      '&titles=' + encodeURIComponent(query);
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) {
+        return 'Error fetching data.';
       }
+      const data = await response.json();
+      const pages = data.query.pages;
+      const pageId = Object.keys(pages)[0];
+      if (pageId === "-1") return 'No results found.';
+      const extract = pages[pageId].extract;
+      return extract || 'No summary available for this topic.';
+    } catch(e) {
+      return 'Failed to retrieve data. Please check your internet connection.';
     }
+  }
 
-    function loadDistractionNote() {
-      const saved = localStorage.getItem('govExamUserNotes') || '';
-      distractionNoteArea.value = saved;
-    }
+  // Research search handler
+  btnResearch.addEventListener('click', async () => {
+    const query = inputResearch.value.trim();
+    if (!query) return;
+    btnResearch.disabled = true;
+    resultResearch.textContent = 'Loading...';
+    saveResearch.style.display = 'none';
+    const summary = await fetchWikiSummary(query);
+    resultResearch.textContent = summary;
+    if (summary) saveResearch.style.display = 'inline-block';
+    btnResearch.disabled = false;
+  });
 
-    saveNoteBtn.addEventListener('click', ()=>{
-      saveNotes();
-      loadDistractionNote();
-    });
+  saveResearch.addEventListener('click', () => {
+    const text = resultResearch.textContent.trim();
+    if (!text) return;
+    let safeName = inputResearch.value.trim().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '');
+    if (!safeName) safeName = 'research_output';
+    saveTextFile(safeName + '_research.txt', text);
+  });
 
-    // Distraction free toggle
-    distractionToggleBtn.addEventListener('click', ()=>{
-      const pressed = distractionToggleBtn.getAttribute('aria-pressed') === 'true';
-      if(pressed) {
-        // disable distraction free
-        document.body.classList.remove('distraction-free');
-        distractionToggleBtn.textContent = 'Enable Distraction-Free Mode';
-        distractionToggleBtn.setAttribute('aria-pressed', 'false');
-      } else {
-        // enable distraction free
-        document.body.classList.add('distraction-free');
-        distractionToggleBtn.textContent = 'Disable Distraction-Free Mode';
-        distractionToggleBtn.setAttribute('aria-pressed', 'true');
-        distractionNoteArea.focus();
-      }
-    });
+  // Study search handler (same logic for simplicity)
+  btnStudy.addEventListener('click', async () => {
+    const query = inputStudy.value.trim();
+    if (!query) return;
+    btnStudy.disabled = true;
+    resultStudy.textContent = 'Loading...';
+    saveStudy.style.display = 'none';
+    const summary = await fetchWikiSummary(query);
+    resultStudy.textContent = summary;
+    if (summary) saveStudy.style.display = 'inline-block';
+    btnStudy.disabled = false;
+  });
 
-    // Load notes on page load
-    window.addEventListener('load', ()=>{
-      loadNotes();
-    });
-  })();
+  saveStudy.addEventListener('click', () => {
+    const text = resultStudy.textContent.trim();
+    if (!text) return;
+    let safeName = inputStudy.value.trim().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '');
+    if (!safeName) safeName = 'study_output';
+    saveTextFile(safeName + '_study.txt', text);
+  });
 </script>
 </body>
 </html>
