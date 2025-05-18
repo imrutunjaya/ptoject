@@ -3,198 +3,101 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Research &amp; Study Helper - Scholarpedia</title>
+<title>Research &amp; Study Helper - Instant Answers</title>
 <style>
-  /* Reset and base */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
   body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background: #fff;
-    color: #111;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    background: #fff; color: #111; min-height: 100vh; display: flex; flex-direction: column;
   }
-
   header {
-    text-align: center;
-    padding: 1rem 0.5rem;
-    font-weight: 700;
-    font-size: 1.6rem;
-    letter-spacing: 0.05em;
+    text-align: center; padding: 1rem 0.5rem; font-weight: 700; font-size: 1.6rem; letter-spacing: 0.05em;
     border-bottom: 1px solid #ccc;
   }
-
   nav {
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid #ddd;
+    display: flex; justify-content: center; border-bottom: 1px solid #ddd;
   }
   nav button {
-    flex: 1;
-    background: none;
-    border: none;
-    padding: 0.75rem 0;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #555;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
+    flex: 1; background: none; border: none; padding: 0.75rem 0; font-size: 1.1rem; font-weight: 700;
+    color: #555; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s ease;
     text-transform: uppercase;
   }
   nav button.active {
-    color: #007acc;
-    border-bottom-color: #007acc;
+    color: #007acc; border-bottom-color: #007acc;
   }
-
   main {
-    flex-grow: 1;
-    max-width: 900px;
-    margin: 1.5rem auto;
-    padding: 0 1.25rem;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    flex-grow: 1; max-width: 900px; margin: 1.5rem auto; padding: 0 1.25rem; width: 100%; display: flex; flex-direction: column;
   }
-
   section {
-    display: none;
-    flex-direction: column;
-    height: 100%;
+    display: none; flex-direction: column; height: 100%;
   }
   section.active {
     display: flex;
   }
-
   .search-box {
-    display: flex;
-    gap: 0.6rem;
+    display: flex; gap: 0.6rem;
   }
   input[type="text"] {
-    flex-grow: 1;
-    font-size: 1.1rem;
-    padding: 0.6rem 1rem;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    outline-offset: 2px;
+    flex-grow: 1; font-size: 1.1rem; padding: 0.6rem 1rem; border: 2px solid #ccc; border-radius: 6px; outline-offset: 2px;
     transition: border-color 0.25s;
   }
   input[type="text"]:focus {
     border-color: #007acc;
   }
   button.search-btn {
-    background: #007acc;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 6px;
-    padding: 0 1.5rem;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: background-color 0.3s;
+    background: #007acc; border: none; color: white; cursor: pointer; border-radius: 6px;
+    padding: 0 1.5rem; font-weight: 700; font-size: 1.1rem; transition: background-color 0.3s;
   }
   button.search-btn:disabled {
-    background: #aaccee;
-    cursor: not-allowed;
+    background: #aaccee; cursor: not-allowed;
   }
   button.search-btn:hover:not(:disabled) {
     background: #005f99;
   }
-
   .result {
-    margin-top: 1.25rem;
-    flex-grow: 1;
-    padding: 1.25rem 1.5rem;
-    border: 1.5px solid #ddd;
-    border-radius: 12px;
-    background: #f9fbff;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    font-size: 1.12rem;
-    line-height: 1.65;
-    min-height: 350px;
-    max-height: 60vh;
-    box-shadow: 0 8px 20px rgb(0 0 0 / 0.05);
-    color: #0a1f44;
+    margin-top: 1.25rem; flex-grow: 1; padding: 1.25rem 1.5rem; border: 1.5px solid #ddd; border-radius: 12px;
+    background: #f9fbff; overflow-y: auto; white-space: pre-wrap; font-size: 1.12rem; line-height: 1.65;
+    min-height: 350px; max-height: 60vh; box-shadow: 0 8px 20px rgb(0 0 0 / 0.05); color: #0a1f44;
   }
   .result h2 {
-    margin-top: 0;
-    font-size: 1.7rem;
-    font-weight: 900;
-    margin-bottom: 1rem;
-    color: #005ea7;
-    border-bottom: 2px solid #007acc;
-    padding-bottom: 0.2rem;
+    margin-top: 0; font-size: 1.7rem; font-weight: 900; margin-bottom: 1rem; color: #005ea7;
+    border-bottom: 2px solid #007acc; padding-bottom: 0.2rem;
   }
-
   .save-btn {
-    margin-top: 1rem;
-    align-self: flex-end;
-    background: #28a745;
-    color: white;
-    font-weight: 700;
-    border: none;
-    padding: 0.5rem 1.2rem;
-    border-radius: 8px;
-    cursor: pointer;
-    display: none;
-    user-select: none;
-    box-shadow: 0 4px 14px rgb(40 167 69 / 0.5);
-    transition: background-color 0.3s;
+    margin-top: 1rem; align-self: flex-end; background: #28a745; color: white; font-weight: 700;
+    border: none; padding: 0.5rem 1.2rem; border-radius: 8px; cursor: pointer; display: none; user-select: none;
+    box-shadow: 0 4px 14px rgb(40 167 69 / 0.5); transition: background-color 0.3s;
   }
   .save-btn:hover {
     background: #1e7e34;
   }
-
   footer {
-    padding: 0.7rem 1rem;
-    font-size: 0.85rem;
-    color: #555;
-    text-align: center;
-    border-top: 1px solid #ddd;
+    padding: 0.7rem 1rem; font-size: 0.85rem; color: #555; text-align: center; border-top: 1px solid #ddd;
   }
-
   @media (max-width: 768px) {
     main {
-      max-width: 100%;
-      margin: 1rem;
-      padding: 0 1rem;
+      max-width: 100%; margin: 1rem; padding: 0 1rem;
     }
     .result {
-      min-height: 280px;
-      max-height: 50vh;
-      font-size: 1rem;
-      line-height: 1.45;
+      min-height: 280px; max-height: 50vh; font-size: 1rem; line-height: 1.45;
     }
     .result h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.7rem;
+      font-size: 1.3rem; margin-bottom: 0.7rem;
     }
     button.search-btn {
       font-size: 1rem;
     }
   }
-
   @media (max-width: 480px) {
     nav button {
-      font-size: 0.95rem;
-      padding: 0.6rem 0;
+      font-size: 0.95rem; padding: 0.6rem 0;
     }
     .result {
-      min-height: 220px;
-      max-height: 45vh;
-      font-size: 0.9rem;
-      line-height: 1.35;
-      padding: 1rem 1rem;
+      min-height: 220px; max-height: 45vh; font-size: 0.9rem; line-height: 1.35; padding: 1rem 1rem;
     }
     .result h2 {
-      font-size: 1.1rem;
-      margin-bottom: 0.4rem;
+      font-size: 1.1rem; margin-bottom: 0.4rem;
     }
   }
 </style>
@@ -223,15 +126,14 @@
     <button id="save-study" class="save-btn" aria-label="Save study result as text file">Save as Text File</button>
   </section>
 </main>
-<footer>© 2024 Research &amp; Study Helper - Data from Scholarpedia</footer>
+<footer>© 2024 Research &amp; Study Helper - Powered by DuckDuckGo Instant Answers</footer>
 <script>
-  // Tabs logic
   const tabs = document.querySelectorAll('nav button[role="tab"]');
   const panels = document.querySelectorAll('main section[role="tabpanel"]');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => {
-        const selected = t === tab;
+        const selected = (t === tab);
         t.setAttribute('aria-selected', selected);
         t.classList.toggle('active', selected);
       });
@@ -241,10 +143,9 @@
     });
   });
 
-  // Enable/disable search buttons
-  function handleInput(inputEl, btnEl) {
-    inputEl.addEventListener('input', () => {
-      btnEl.disabled = inputEl.value.trim() === '';
+  function handleInput(input, btn) {
+    input.addEventListener('input', () => {
+      btn.disabled = (input.value.trim() === '');
     });
   }
 
@@ -260,7 +161,6 @@
   const resultStudy = document.getElementById('result-study');
   const saveStudy = document.getElementById('save-study');
 
-  // Save text as file utility
   function saveTextFile(filename, text) {
     const blob = new Blob([text], {type: 'text/plain'});
     const a = document.createElement("a");
@@ -275,87 +175,94 @@
     }, 150);
   }
 
-  // Scholarpedia API fetch with CORS origin=*
-  // Uses Scholarpedia MediaWiki API for extracts (full text)
-  async function fetchScholarpediaSummary(query) {
-    if (!query) return {title: '', extract: ''};
-    const endpoint = 'https://www.scholarpedia.org/w/api.php' +
-      '?action=query' +
-      '&format=json' +
-      '&prop=extracts' +
-      '&explaintext=true' +
-      '&redirects=1' +
-      '&origin=*' +
-      '&titles=' + encodeURIComponent(query);
+  async function fetchDuckDuckGoInstantAnswer(query) {
+    if (!query) return {Heading:'', Text:'', Related:[]};
+    const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
     try {
-      const response = await fetch(endpoint);
-      if (!response.ok) {
-        return {title: '', extract: 'Error fetching data.'};
+      const res = await fetch(url);
+      if (!res.ok) {
+        return {Heading:'', Text: `Error fetching data (${res.status})`};
       }
-      const data = await response.json();
-      const pages = data.query.pages;
-      const pageId = Object.keys(pages)[0];
-      if (pageId === "-1") return {title: '', extract: 'No results found.'};
-      const page = pages[pageId];
-      return {title: page.title, extract: page.extract || 'No detailed explanation available.'};
+      const data = await res.json();
+      return data;
     } catch(e) {
-      return {title: '', extract: 'Failed to retrieve data. Please check your internet connection.'};
+      return {Heading:'', Text: 'Failed to retrieve data. Please check your internet connection.'};
     }
   }
 
-  // Research search handler
+  function displayDDGResult(container, data) {
+    if (!data) {
+      container.textContent = 'No data received.';
+      return;
+    }
+    container.innerHTML = '';
+    // Show Heading
+    if (data.Heading) {
+      const h2 = document.createElement('h2');
+      h2.textContent = data.Heading;
+      container.appendChild(h2);
+    }
+    // Show Abstract Text
+    if (data.AbstractText) {
+      const p = document.createElement('p');
+      p.textContent = data.AbstractText;
+      container.appendChild(p);
+    } else if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+      data.RelatedTopics.forEach(topic => {
+        if (topic.Text) {
+          const p = document.createElement('p');
+          p.textContent = topic.Text;
+          container.appendChild(p);
+        }
+      });
+    } else if (data.Answer) {
+      const p = document.createElement('p');
+      p.textContent = data.Answer;
+      container.appendChild(p);
+    } else {
+      container.textContent = 'No detailed explanation found for this query.';
+    }
+  }
+
   btnResearch.addEventListener('click', async () => {
     const query = inputResearch.value.trim();
     if (!query) return;
     btnResearch.disabled = true;
     saveResearch.style.display = 'none';
     resultResearch.textContent = 'Loading...';
-    const {title, extract} = await fetchScholarpediaSummary(query);
-    if(title) {
-      resultResearch.innerHTML = '<h2>' + title + '</h2>' + extract.replace(/\n/g, '<br>');
-    } else {
-      resultResearch.textContent = extract;
-    }
-    if (extract && extract !== 'Loading...' && extract !== 'No results found.' && extract !== 'Failed to retrieve data. Please check your internet connection.') {
-      saveResearch.style.display = 'inline-block';
-    }
+    const data = await fetchDuckDuckGoInstantAnswer(query);
+    displayDDGResult(resultResearch, data);
+    if (resultResearch.textContent.trim().length > 0) saveResearch.style.display = 'inline-block';
     btnResearch.disabled = false;
   });
 
   saveResearch.addEventListener('click', () => {
     let text = '';
-    const headingEl = resultResearch.querySelector('h2');
-    if(headingEl) text += headingEl.textContent + '\n\n';
-    text += resultResearch.textContent.trim().replace(/\u00A0/g, ' ');
+    const h2 = resultResearch.querySelector('h2');
+    if (h2) text += h2.textContent + '\n\n';
+    text += resultResearch.textContent.trim();
     if (!text) return;
     let safeName = inputResearch.value.trim().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '') || 'research_output';
     saveTextFile(safeName + '_research.txt', text);
   });
 
-  // Study search handler (same logic for simplicity)
   btnStudy.addEventListener('click', async () => {
     const query = inputStudy.value.trim();
     if (!query) return;
     btnStudy.disabled = true;
     saveStudy.style.display = 'none';
     resultStudy.textContent = 'Loading...';
-    const {title, extract} = await fetchScholarpediaSummary(query);
-    if(title) {
-      resultStudy.innerHTML = '<h2>' + title + '</h2>' + extract.replace(/\n/g, '<br>');
-    } else {
-      resultStudy.textContent = extract;
-    }
-    if (extract && extract !== 'Loading...' && extract !== 'No results found.' && extract !== 'Failed to retrieve data. Please check your internet connection.') {
-      saveStudy.style.display = 'inline-block';
-    }
+    const data = await fetchDuckDuckGoInstantAnswer(query);
+    displayDDGResult(resultStudy, data);
+    if (resultStudy.textContent.trim().length > 0) saveStudy.style.display = 'inline-block';
     btnStudy.disabled = false;
   });
 
   saveStudy.addEventListener('click', () => {
     let text = '';
-    const headingEl = resultStudy.querySelector('h2');
-    if(headingEl) text += headingEl.textContent + '\n\n';
-    text += resultStudy.textContent.trim().replace(/\u00A0/g, ' ');
+    const h2 = resultStudy.querySelector('h2');
+    if (h2) text += h2.textContent + '\n\n';
+    text += resultStudy.textContent.trim();
     if (!text) return;
     let safeName = inputStudy.value.trim().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '') || 'study_output';
     saveTextFile(safeName + '_study.txt', text);
