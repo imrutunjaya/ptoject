@@ -3,269 +3,453 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Research &amp; Study Helper - Instant Answers</title>
+<title>Exam List &amp; Current Affairs Hub</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   body {
     margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    background: #fff; color: #111; min-height: 100vh; display: flex; flex-direction: column;
+    background: #f9fafb; color: #111; min-height: 100vh; display: flex; flex-direction: column;
   }
   header {
-    text-align: center; padding: 1rem 0.5rem; font-weight: 700; font-size: 1.6rem; letter-spacing: 0.05em;
-    border-bottom: 1px solid #ccc;
-  }
-  nav {
-    display: flex; justify-content: center; border-bottom: 1px solid #ddd;
-  }
-  nav button {
-    flex: 1; background: none; border: none; padding: 0.75rem 0; font-size: 1.1rem; font-weight: 700;
-    color: #555; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s ease;
-    text-transform: uppercase;
-  }
-  nav button.active {
-    color: #007acc; border-bottom-color: #007acc;
+    text-align: center; padding: 1.2rem 1rem; font-weight: 700; font-size: 1.8rem; letter-spacing: 0.06em;
+    background-color: #004a99; color: white; box-shadow: 0 3px 12px rgba(0, 74, 153, 0.4);
   }
   main {
-    flex-grow: 1; max-width: 900px; margin: 1.5rem auto; padding: 0 1.25rem; width: 100%; display: flex; flex-direction: column;
+    flex-grow: 1; max-width: 1000px; margin: 1.75rem auto; padding: 0 1rem; width: 100%;
+    display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
   }
   section {
-    display: none; flex-direction: column; height: 100%;
+    background: white; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+    padding: 1.5rem 2rem; width: 480px; max-width: 100%;
+    display: flex; flex-direction: column;
   }
-  section.active {
+  section h2 {
+    font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 3px solid #007acc; padding-bottom: 0.3rem;
+    color: #004a99;
+  }
+
+  /* Search bar styling */
+  #search-section {
+    width: 100%;
+    max-width: 1000px;
+    margin: 1rem auto 2rem auto;
+    padding: 0 1rem;
     display: flex;
+    justify-content: center;
   }
-  .search-box {
-    display: flex; gap: 0.6rem;
+  #google-search-form {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    gap: 0.5rem;
   }
-  input[type="text"] {
-    flex-grow: 1; font-size: 1.1rem; padding: 0.6rem 1rem; border: 2px solid #ccc; border-radius: 6px; outline-offset: 2px;
-    transition: border-color 0.25s;
+  #google-search-input {
+    flex-grow: 1;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    border: 2px solid #007acc;
+    border-radius: 6px;
   }
-  input[type="text"]:focus {
-    border-color: #007acc;
+  #google-search-submit {
+    background: #007acc;
+    border: none;
+    padding: 0 1.2rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
   }
-  button.search-btn {
-    background: #007acc; border: none; color: white; cursor: pointer; border-radius: 6px;
-    padding: 0 1.5rem; font-weight: 700; font-size: 1.1rem; transition: background-color 0.3s;
+  #google-search-submit:hover {
+    background: #005e9c;
   }
-  button.search-btn:disabled {
-    background: #aaccee; cursor: not-allowed;
+
+  /* Exam resources accordion */
+  .exam-item {
+    border: 1.5px solid #ccc; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
-  button.search-btn:hover:not(:disabled) {
-    background: #005f99;
+  .exam-header {
+    padding: 0.9rem 1.3rem; background: #dce9ff; cursor: pointer;
+    font-weight: 700; color: #007acc; user-select: none;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 1.15rem; border-radius: 8px 8px 0 0;
+    transition: background-color 0.3s;
   }
-  .result {
-    margin-top: 1.25rem; flex-grow: 1; padding: 1.25rem 1.5rem; border: 1.5px solid #ddd; border-radius: 12px;
-    background: #f9fbff; overflow-y: auto; white-space: pre-wrap; font-size: 1.12rem; line-height: 1.65;
-    min-height: 350px; max-height: 60vh; box-shadow: 0 8px 20px rgb(0 0 0 / 0.05); color: #0a1f44;
+  .exam-header:hover {
+    background: #b4d0ff;
   }
-  .result h2 {
-    margin-top: 0; font-size: 1.7rem; font-weight: 900; margin-bottom: 1rem; color: #005ea7;
-    border-bottom: 2px solid #007acc; padding-bottom: 0.2rem;
+  .exam-header::after {
+    content: '+';
+    font-size: 1.4rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
   }
-  .save-btn {
-    margin-top: 1rem; align-self: flex-end; background: #28a745; color: white; font-weight: 700;
-    border: none; padding: 0.5rem 1.2rem; border-radius: 8px; cursor: pointer; display: none; user-select: none;
-    box-shadow: 0 4px 14px rgb(40 167 69 / 0.5); transition: background-color 0.3s;
+  .exam-header.active::after {
+    content: '-';
+    transform: rotate(180deg);
   }
-  .save-btn:hover {
-    background: #1e7e34;
+  .exam-content {
+    max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
+    background: #f0f6ff; padding: 0 1.3rem; border-top: 1.5px solid #bbb;
+    border-radius: 0 0 8px 8px;
   }
-  footer {
-    padding: 0.7rem 1rem; font-size: 0.85rem; color: #555; text-align: center; border-top: 1px solid #ddd;
+  .exam-content.open {
+    max-height: 900px; /* enough height for content */
+    padding: 1rem 1.3rem;
   }
-  @media (max-width: 768px) {
+  .syllabus-list {
+    margin: 0.5rem 0 1rem 1.2rem;
+    color: #222;
+    list-style-type: disc;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .pdf-links {
+    margin-bottom: 1rem;
+  }
+  .pdf-links a {
+    display: inline-block;
+    background: #007acc;
+    color: white;
+    text-decoration: none;
+    padding: 0.3rem 0.85rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-right: 0.6rem;
+    margin-bottom: 0.4rem;
+    box-shadow: 0 3px 8px rgba(0,122,204,0.6);
+    transition: background-color 0.25s ease;
+  }
+  .pdf-links a:hover {
+    background: #005ea3;
+  }
+
+  /* Current affairs list */
+  #current-affairs ul {
+    list-style: none; padding: 0; margin: 0;
+    max-height: 600px; overflow-y: auto;
+  }
+  #current-affairs li {
+    padding: 0.6rem 0; border-bottom: 1px solid #eee;
+  }
+  #current-affairs a {
+    color: #004a99; font-weight: 600; text-decoration: none;
+    font-size: 1rem;
+  }
+  #current-affairs a:hover {
+    text-decoration: underline;
+  }
+  .news-date {
+    display: block; font-size: 0.8rem; color: #555; margin-top: 2px;
+  }
+
+  @media (max-width: 1028px) {
     main {
-      max-width: 100%; margin: 1rem; padding: 0 1rem;
-    }
-    .result {
-      min-height: 280px; max-height: 50vh; font-size: 1rem; line-height: 1.45;
-    }
-    .result h2 {
-      font-size: 1.3rem; margin-bottom: 0.7rem;
-    }
-    button.search-btn {
-      font-size: 1rem;
+      justify-content: center; gap: 2rem;
     }
   }
-  @media (max-width: 480px) {
-    nav button {
-      font-size: 0.95rem; padding: 0.6rem 0;
-    }
-    .result {
-      min-height: 220px; max-height: 45vh; font-size: 0.9rem; line-height: 1.35; padding: 1rem 1rem;
-    }
-    .result h2 {
-      font-size: 1.1rem; margin-bottom: 0.4rem;
+  @media (max-width: 960px) {
+    section {
+      width: 100%;
     }
   }
 </style>
 </head>
 <body>
-<header>Research &amp; Study Helper</header>
-<nav role="tablist" aria-label="Research and Study Tabs">
-  <button role="tab" id="tab-research" aria-controls="panel-research" aria-selected="true" class="active">Research</button>
-  <button role="tab" id="tab-study" aria-controls="panel-study" aria-selected="false">Study</button>
-</nav>
+
+<!-- Google Search Section -->
+<div id="search-section" aria-label="Google Search">
+  <form id="google-search-form" action="https://www.google.com/search" method="GET" target="_blank" role="search" aria-label="Google Search Form">
+    <input type="text" id="google-search-input" name="q" placeholder="Search anything on Google..." aria-label="Google search input" required />
+    <button type="submit" id="google-search-submit" aria-label="Search Google">Search</button>
+  </form>
+</div>
+
 <main>
-  <section id="panel-research" role="tabpanel" aria-labelledby="tab-research" class="active">
-    <div class="search-box">
-      <input type="text" id="input-research" aria-label="Research question input" placeholder="Enter research question..." autocomplete="off" />
-      <button id="btn-research" class="search-btn" disabled>Search</button>
-    </div>
-    <div id="result-research" class="result" aria-live="polite"></div>
-    <button id="save-research" class="save-btn" aria-label="Save research result as text file">Save as Text File</button>
+  <section id="exam-resources" aria-label="Exam List and Resources">
+    <h2>Exam List and Resources</h2>
+    <!-- Generated by JS -->
   </section>
-  <section id="panel-study" role="tabpanel" aria-labelledby="tab-study">
-    <div class="search-box">
-      <input type="text" id="input-study" aria-label="Study question input" placeholder="Enter study question..." autocomplete="off" />
-      <button id="btn-study" class="search-btn" disabled>Search</button>
-    </div>
-    <div id="result-study" class="result" aria-live="polite"></div>
-    <button id="save-study" class="save-btn" aria-label="Save study result as text file">Save as Text File</button>
+  <section id="current-affairs" aria-label="Latest Current Affairs">
+    <h2>Latest Current Affairs</h2>
+    <ul id="news-list" role="list">
+      <!-- Filled by JS -->
+    </ul>
   </section>
 </main>
-<footer>© 2024 Research &amp; Study Helper - Powered by DuckDuckGo Instant Answers</footer>
+<footer style="text-align:center; padding:1rem 0; font-size:0.85rem; color:#555;">
+  © 2024 Exam &amp; Current Affairs Hub
+</footer>
 <script>
-  const tabs = document.querySelectorAll('nav button[role="tab"]');
-  const panels = document.querySelectorAll('main section[role="tabpanel"]');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => {
-        const selected = (t === tab);
-        t.setAttribute('aria-selected', selected);
-        t.classList.toggle('active', selected);
-      });
-      panels.forEach(panel => {
-        panel.classList.toggle('active', panel.id === 'panel-' + tab.id.split('-')[1]);
-      });
+  const exams = [
+    {
+      name: "JEE Main (Joint Entrance Examination)",
+      syllabus: [
+        "Mathematics: Algebra, Trigonometry, Calculus, Coordinate Geometry",
+        "Physics: Mechanics, Thermodynamics, Electricity & Magnetism",
+        "Chemistry: Physical, Organic, Inorganic Chemistry basics"
+      ],
+      pdfs: [
+        {label: "Official JEE Main Syllabus PDF", url: "https://jeemain.nta.nic.in/webinfo2021/File/GetFile?FileId=45&LangId=P"},
+        {label: "Sample JEE Main Practice Papers", url: "https://jeemain.nta.nic.in/webinfo2021/File/GetFile?FileId=50&LangId=P"}
+      ]
+    },
+    {
+      name: "NEET (National Eligibility cum Entrance Test)",
+      syllabus: [
+        "Physics: Mechanics, Heat, Work & Energy, Sound, Optics",
+        "Chemistry: Basic concepts, Periodic Table, Organic Chemistry",
+        "Biology: Human Physiology, Genetics, Ecology, Cell Structure"
+      ],
+      pdfs: [
+        {label: "NEET Official Syllabus PDF", url: "https://ntaneet.nic.in/ntaneet/Images/UG_Syllabus.pdf"},
+        {label: "NEET Previous Year Question Papers", url: "https://ntaneet.nic.in/ntaneet/Images/Previous_Year_Question_Papers.pdf"}
+      ]
+    },
+    {
+      name: "UPSC Civil Services Exam",
+      syllabus: [
+        "Prelims: General Studies, CSAT (Aptitude)",
+        "Mains: Essay, General Studies I-IV, Optional Subject",
+        "Interview: Personality and Demeanor"
+      ],
+      pdfs: [
+        {label: "UPSC Syllabus & Exam Pattern", url: "https://www.upsc.gov.in/sites/default/files/Final%20Syllabus%20Booklet.pdf"},
+        {label: "Previous UPSC Question Papers", url: "https://iasexamportal.com/upsc-question-papers"}
+      ]
+    },
+    {
+      name: "GRE (Graduate Record Examination)",
+      syllabus: [
+        "Verbal Reasoning: Reading Comprehension, Text Completion",
+        "Quantitative Reasoning: Arithmetic, Algebra, Geometry",
+        "Analytical Writing: Issue and Argument Essays"
+      ],
+      pdfs: [
+        {label: "Official GRE General Test Practice Book", url: "https://www.ets.org/s/gre/pdf/practice_book_GRE.pdf"},
+        {label: "GRE Verbal Practice Questions", url: "https://greprepclub.com/resources/gre-verbal-practice-questions-1001-free-qa"}
+      ]
+    },
+    {
+      name: "TOEFL (Test of English as a Foreign Language)",
+      syllabus: [
+        "Reading: Academic passages",
+        "Listening: Lectures & conversations",
+        "Speaking: Express opinions, speak based on reading/listening",
+        "Writing: Integrated and independent essays"
+      ],
+      pdfs: [
+        {label: "Official TOEFL Test Prep PDF", url: "https://www.ets.org/s/toefl/pdf/toefl_smat_001.pdf"},
+        {label: "Sample TOEFL Practice Questions", url: "https://www.toeflgoanywhere.org/content/toeflpracticequestions"}
+      ]
+    },
+    {
+      name: "SSC CGL (Staff Selection Commission - Combined Graduate Level Exam)",
+      syllabus: [
+        "General Intelligence & Reasoning",
+        "General Awareness",
+        "Quantitative Aptitude",
+        "English Comprehension"
+      ],
+      pdfs: [
+        {label: "SSC CGL Official Syllabus PDF", url: "https://ssc.nic.in/ssc_sched_pdf/CGL_Syllabus_2020.pdf"},
+        {label: "SSC CGL Previous Year Question Papers", url: "https://ssc.nic.in/ssc_cgl_previous_year_question_papers.aspx"}
+      ]
+    },
+    // Additional exams to expand list
+    {
+      name: "CAT (Common Admission Test)",
+      syllabus: [
+        "Quantitative Ability",
+        "Data Interpretation & Logical Reasoning",
+        "Verbal Ability and Reading Comprehension"
+      ],
+      pdfs: [
+        {label: "CAT Official Syllabus PDF", url: "https://iimcat.ac.in/sites/default/files/2023-03/CAT%20Syllabus.pdf"},
+        {label: "CAT Previous Year Papers", url: "https://mocktime.com/cat-mock-test"}
+      ]
+    },
+    {
+      name: "IBPS PO (Institute of Banking Personnel Selection - Probationary Officer)",
+      syllabus: [
+        "English Language",
+        "Quantitative Aptitude",
+        "Reasoning Ability",
+        "General Awareness (with focus on Banking)"
+      ],
+      pdfs: [
+        {label: "IBPS PO Syllabus PDF", url: "https://ibpsguide.com/ibps-po-syllabus-previous-year-question-papers/"},
+        {label: "IBPS PO Previous Year Papers", url: "https://ibpsguide.com/ibps-po-previous-year-question-papers/"},
+      ]
+    },
+    {
+      name: "CA Foundation",
+      syllabus: [
+        "Principles and Practice of Accounting",
+        "Business Laws & Business Correspondence and Reporting",
+        "Business Mathematics, Logical Reasoning & Statistics",
+        "Business Economics and Business and Commercial Knowledge"
+      ],
+      pdfs: [
+        {label: "CA Foundation Syllabus PDF", url: "https://www.icai.org/post/category/exam-foundation"},
+        {label: "Mock Test Papers PDF", url: "https://www.icai.org/post/exam-mock-test-papers"},
+      ]
+    }
+  ];
+
+  const examContainer = document.getElementById('exam-resources');
+
+  function createExamItem(exam) {
+    const item = document.createElement('div');
+    item.className = 'exam-item';
+
+    const header = document.createElement('div');
+    header.className = 'exam-header';
+    header.tabIndex = 0;
+    header.setAttribute('role', 'button');
+    header.setAttribute('aria-expanded', 'false');
+    header.textContent = exam.name;
+    item.appendChild(header);
+
+    const content = document.createElement('div');
+    content.className = 'exam-content';
+    content.setAttribute('aria-hidden', 'true');
+
+    const syllabusTitle = document.createElement('h3');
+    syllabusTitle.textContent = 'Syllabus:';
+    syllabusTitle.style.color = '#004080';
+    syllabusTitle.style.marginBottom = '0.5rem';
+    content.appendChild(syllabusTitle);
+
+    const syllabusList = document.createElement('ul');
+    syllabusList.className = 'syllabus-list';
+    exam.syllabus.forEach(topic => {
+      const li = document.createElement('li');
+      li.textContent = topic;
+      syllabusList.appendChild(li);
     });
-  });
+    content.appendChild(syllabusList);
 
-  function handleInput(input, btn) {
-    input.addEventListener('input', () => {
-      btn.disabled = (input.value.trim() === '');
+    const pdfTitle = document.createElement('h3');
+    pdfTitle.textContent = 'Download PDFs:';
+    pdfTitle.style.color = '#004080';
+    pdfTitle.style.marginBottom = '0.5rem';
+    content.appendChild(pdfTitle);
+
+    const pdfLinksDiv = document.createElement('div');
+    pdfLinksDiv.className = 'pdf-links';
+
+    exam.pdfs.forEach(pdf => {
+      const a = document.createElement('a');
+      a.href = pdf.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = pdf.label;
+      pdfLinksDiv.appendChild(a);
     });
-  }
+    content.appendChild(pdfLinksDiv);
 
-  const inputResearch = document.getElementById('input-research');
-  const btnResearch = document.getElementById('btn-research');
-  handleInput(inputResearch, btnResearch);
-  const resultResearch = document.getElementById('result-research');
-  const saveResearch = document.getElementById('save-research');
+    item.appendChild(content);
 
-  const inputStudy = document.getElementById('input-study');
-  const btnStudy = document.getElementById('btn-study');
-  handleInput(inputStudy, btnStudy);
-  const resultStudy = document.getElementById('result-study');
-  const saveStudy = document.getElementById('save-study');
-
-  function saveTextFile(filename, text) {
-    const blob = new Blob([text], {type: 'text/plain'});
-    const a = document.createElement("a");
-    a.download = filename;
-    a.href = URL.createObjectURL(blob);
-    a.style.display = "none";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-    }, 150);
-  }
-
-  async function fetchDuckDuckGoInstantAnswer(query) {
-    if (!query) return {Heading:'', Text:'', Related:[]};
-    const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) {
-        return {Heading:'', Text: `Error fetching data (${res.status})`};
+    header.addEventListener('click', () => {
+      const expanded = header.getAttribute('aria-expanded') === 'true';
+      header.setAttribute('aria-expanded', String(!expanded));
+      header.classList.toggle('active');
+      if (!expanded) {
+        content.classList.add('open');
+        content.setAttribute('aria-hidden', 'false');
+      } else {
+        content.classList.remove('open');
+        content.setAttribute('aria-hidden', 'true');
       }
-      const data = await res.json();
-      return data;
-    } catch(e) {
-      return {Heading:'', Text: 'Failed to retrieve data. Please check your internet connection.'};
-    }
+    });
+    header.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        header.click();
+      }
+    });
+    return item;
   }
 
-  function displayDDGResult(container, data) {
-    if (!data) {
-      container.textContent = 'No data received.';
-      return;
-    }
-    container.innerHTML = '';
-    // Show Heading
-    if (data.Heading) {
-      const h2 = document.createElement('h2');
-      h2.textContent = data.Heading;
-      container.appendChild(h2);
-    }
-    // Show Abstract Text
-    if (data.AbstractText) {
-      const p = document.createElement('p');
-      p.textContent = data.AbstractText;
-      container.appendChild(p);
-    } else if (data.RelatedTopics && data.RelatedTopics.length > 0) {
-      data.RelatedTopics.forEach(topic => {
-        if (topic.Text) {
-          const p = document.createElement('p');
-          p.textContent = topic.Text;
-          container.appendChild(p);
-        }
-      });
-    } else if (data.Answer) {
-      const p = document.createElement('p');
-      p.textContent = data.Answer;
-      container.appendChild(p);
-    } else {
-      container.textContent = 'No detailed explanation found for this query.';
-    }
-  }
-
-  btnResearch.addEventListener('click', async () => {
-    const query = inputResearch.value.trim();
-    if (!query) return;
-    btnResearch.disabled = true;
-    saveResearch.style.display = 'none';
-    resultResearch.textContent = 'Loading...';
-    const data = await fetchDuckDuckGoInstantAnswer(query);
-    displayDDGResult(resultResearch, data);
-    if (resultResearch.textContent.trim().length > 0) saveResearch.style.display = 'inline-block';
-    btnResearch.disabled = false;
+  exams.forEach(exam => {
+    examContainer.appendChild(createExamItem(exam));
   });
 
-  saveResearch.addEventListener('click', () => {
-    let text = '';
-    const h2 = resultResearch.querySelector('h2');
-    if (h2) text += h2.textContent + '\n\n';
-    text += resultResearch.textContent.trim();
-    if (!text) return;
-    let safeName = inputResearch.value.trim().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '') || 'research_output';
-    saveTextFile(safeName + '_research.txt', text);
-  });
+  // Current Affairs Mock Data (expanded)
+  const currentAffairs = [
+    {
+      title: "Global Talks on Climate Change Commitments Strengthen",
+      date: "2024-06-10",
+      url: "https://www.un.org/en/climatechange"
+    },
+    {
+      title: "New Sustainable Energy Policies Announced Worldwide",
+      date: "2024-06-09",
+      url: "https://www.iea.org/newsroom"
+    },
+    {
+      title: "Breakthrough in AI Technology Enhances Medical Research",
+      date: "2024-06-08",
+      url: "https://technews.example.com/ai-medical-breakthrough"
+    },
+    {
+      title: "International Collaboration Increases for Space Exploration",
+      date: "2024-06-07",
+      url: "https://www.nasa.gov/press-release"
+    },
+    {
+      title: "Renewed Focus on Education in Developing Countries",
+      date: "2024-06-06",
+      url: "https://www.unesco.org/en/education"
+    },
+    {
+      title: "Major Advances in Renewable Energy Adoption",
+      date: "2024-06-05",
+      url: "https://www.energy.gov/articles/major-advances-renewable-energy"
+    },
+    {
+      title: "World Health Organization Releases Updated Health Guidelines",
+      date: "2024-06-04",
+      url: "https://www.who.int/news"
+    },
+    {
+      title: "Tech Industry Sees Massive Shift Towards Quantum Computing",
+      date: "2024-06-03",
+      url: "https://www.techcrunch.com/quantum-computing"
+    },
+    {
+      title: "New Discoveries Shed Light on Deep Ocean Ecosystems",
+      date: "2024-06-02",
+      url: "https://www.nationalgeographic.com/science"
+    },
+    {
+      title: "Historic Peace Agreement Signed in Conflict Region",
+      date: "2024-06-01",
+      url: "https://www.bbc.com/news/world"
+    }
+  ];
 
-  btnStudy.addEventListener('click', async () => {
-    const query = inputStudy.value.trim();
-    if (!query) return;
-    btnStudy.disabled = true;
-    saveStudy.style.display = 'none';
-    resultStudy.textContent = 'Loading...';
-    const data = await fetchDuckDuckGoInstantAnswer(query);
-    displayDDGResult(resultStudy, data);
-    if (resultStudy.textContent.trim().length > 0) saveStudy.style.display = 'inline-block';
-    btnStudy.disabled = false;
-  });
+  const newsList = document.getElementById('news-list');
 
-  saveStudy.addEventListener('click', () => {
-    let text = '';
-    const h2 = resultStudy.querySelector('h2');
-    if (h2) text += h2.textContent + '\n\n';
-    text += resultStudy.textContent.trim();
-    if (!text) return;
-    let safeName = inputStudy.value.trim().replace(/\s+/g, '_').replace(/[^\w\-]+/g, '') || 'study_output';
-    saveTextFile(safeName + '_study.txt', text);
+  currentAffairs.forEach(item => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = item.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer nofollow';
+    a.textContent = item.title;
+
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'news-date';
+    dateSpan.textContent = new Date(item.date).toLocaleDateString(undefined, {year: 'numeric', month:'short', day:'numeric'});
+
+    li.appendChild(a);
+    li.appendChild(dateSpan);
+    newsList.appendChild(li);
   });
 </script>
 </body>
